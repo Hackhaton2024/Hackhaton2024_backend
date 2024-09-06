@@ -1,0 +1,8 @@
+
+### Register a member with his first name
+POST http://localhost:8080/api/member/create HTTP/1.1
+Content-Type: application/json
+
+{
+    "firstName":"krilin"
+}
