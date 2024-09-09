@@ -5,4 +5,10 @@ import jakarta.validation.constraints.NotNull;
 public record MemberRequestDto(
         @NotNull
     String firstName
-) {}
+
+) {
+    @Override
+    public @NotNull String firstName() {
+        return firstName;
+    }
+}
