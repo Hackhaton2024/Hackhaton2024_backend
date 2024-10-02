@@ -1,5 +1,7 @@
 package fr.hackhaton.hackhaton2024_API.service;
 
+import fr.hackhaton.hackhaton2024_API.dto.MemberRequestDto;
+import fr.hackhaton.hackhaton2024_API.dto.MemberResponseDto;
 import fr.hackhaton.hackhaton2024_API.entity.Member;
 import fr.hackhaton.hackhaton2024_API.repository.MemberRepository;
 import jakarta.transaction.Transactional;
@@ -16,10 +18,25 @@ public class MemberService {
         this.memberRepository = memberRepository;
     }
 
-    /**
-     * Create a member
-     * 
-     * @param memberToCreate to create
+    public MemberResponseDto createMember(MemberRequestDto memberRequestDto) {
+        Member memberToCreate = buildMemberFromRequest(memberRequestDto);
+
+        Member createdMember = this.create(memberToCreate);
+
+        return convertToResponseDto(createdMember);
+    }
+    private Member buildMemberFromRequest(MemberRequestDto memberRequestDto) {
+        return Member.builder()
+                .firstName(memberRequestDto.firstName())
+                .build();
+    }
+
+    private MemberResponseDto convertToResponseDto(Member createdMember) {
+        return new MemberResponseDto(createdMember.getId(), createdMember.getFirstName());
+    }
+    /**Create a member
+     *
+     * @param member to create
      * @return created member
      * 
      * @author mochizuki
