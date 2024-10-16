@@ -29,7 +29,7 @@ import java.util.regex.Pattern;
 /**
  * Services related to User
  *
- * @author atsuhiko Mochizuki
+ * @author T.NGUYEN
  * @date 26/03/2024
  */
 @Service
@@ -85,7 +85,7 @@ public class UserServiceImpl implements UserService {
      * @param username the username identifying the user whose data is required.
      * @return
      * @throws UsernameNotFoundException
-     * @author atsuhiko Mochizuki
+     * @author T.NGUYEN
      * @date 26/03/2024
      *       The loadUserByUsername() method is a part of the UserDetailsService
      *       interface
@@ -114,7 +114,7 @@ public class UserServiceImpl implements UserService {
      *             <p>
      * @return the user
      * @throws InoteExistingEmailException
-     * @author Atsuhiko Mochizuki
+     * @author T.NGUYEN
      * @throws InoteMailException
      * @throws MailException
      * @date 26/03/2024
@@ -148,7 +148,7 @@ public class UserServiceImpl implements UserService {
      *
      * @return the saved user if success
      * @throws InoteExistingEmailException
-     * @author atsuhiko Mochizuki
+     * @author T.NGUYEN
      * @date 26/03/2024
      */
     private User createUser(User user) throws InoteExistingEmailException, InoteInvalidEmailException,
@@ -195,7 +195,7 @@ public class UserServiceImpl implements UserService {
      *
      * @return the saved user if success
      * @throws InoteExistingEmailException
-     * @author atsuhiko Mochizuki
+     * @author T.NGUYEN
      * @date 26/03/2024
      */
     private User createTesterUser(User user) throws InoteExistingEmailException, InoteInvalidEmailException,
@@ -297,7 +297,7 @@ public class UserServiceImpl implements UserService {
      *
      * @return a list containing all users
      * 
-     * @author atsuhikoMochizuki
+     * @author T.NGUYEN
      * @since 2024-06-13
      */
     public List<User> list() {

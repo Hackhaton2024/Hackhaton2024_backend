@@ -15,7 +15,7 @@ public interface UserRepository extends CrudRepository<User, Integer> {
      *
      * @param email the email
      * @return the optional
-     * @author AtsuhikoMochizuki
+     * @author T.NGUYEN
      */
     Optional<User> findByEmail(String email);
 }

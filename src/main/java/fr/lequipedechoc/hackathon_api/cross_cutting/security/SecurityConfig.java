@@ -25,7 +25,7 @@ import static org.springframework.http.HttpMethod.POST;
 /**
  * Main security configuration of application
  *
- * @author atsuhiko Mochizuki
+ * @author T.NGUYEN
  * @date 28/03/2024
  */
 
@@ -107,7 +107,7 @@ public class SecurityConfig {
      *                     <p>
      * @return the security filter chain
      *         <p>
-     * @author atsuhiko mochizuki
+     * @author T.NGUYEN
      * @date 28/03/2024
      */
     @Bean

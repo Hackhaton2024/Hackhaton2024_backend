@@ -44,7 +44,7 @@ import fr.lequipedechoc.hackathon_api.service.impl.UserServiceImpl;
 /**
  * Unit tests of User controller layer
  *
- * @author atsuhikoMochizuki
+ * @author T.NGUYEN
  * @date 2024-06-11
  */
 @WebMvcTest(UserController.class)

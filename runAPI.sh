@@ -1,24 +1,10 @@
 #/usr/bin/bash
-# Run SMTP4DEV
-# AtsuhikoMochizuki 27/05/2024
+# Run REST API
+# T.NGUYEN
+# 2024-10-17
 #===================================================================================
-readonly TITLE='SMTP4Dev'
-readonly BIN_PATH='../../smtp-dev/Rnwood.Smtp4dev'
-clear
-echo "
-  _____ _   _  ____ _______ ______ 
- |_   _| \ | |/ __ \__   __|  ____|
-   | | |  \| | |  | | | |  | |___ 
-   | | |   \ | |  | | | |  |  __|  
-  _| |_| |\  | |__| | | |  | |____ 
- |_____|_| \_|\____/  |_|  |______|
- User-friendly personal notes manager
- ==============================================================================
-  INOTE REST API - DEV TOOL
-  By @AtsuhikoMochizuki
-  2024
- ==============================================================================                                 
-"
+readonly TITLE='SMTP4Dev (Mail server simulation)'
+readonly BIN_PATH='../smtp-dev/Rnwood.Smtp4dev'
 echo -e -n "\033[93m -- Search Smtp4dev (smtp server mocking)...\033[0m"
 if [ -f "$BIN_PATH" ]
 then
@@ -28,6 +14,8 @@ then
     xdotool windowminimize $(xdotool search --name "$TITLE"|head -1)
     echo -e -n "\033[93m -- \033[0m"
     echo -e "\033[32mOK\033[0m"
+    echo -e -n "\033[93m -- Launch Springboot REST API project\033[0m"
+    mvn spring-boot:run
 else
     echo -e "\033[31mNot Found : This script expects to find a ‘smtp-dev’ directory in the folder containing the superproject directory,"\
     " which contains the Smtp4dev simulation smtp server."\

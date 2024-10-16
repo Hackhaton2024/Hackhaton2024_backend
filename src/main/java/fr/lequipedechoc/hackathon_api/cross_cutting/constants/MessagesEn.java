@@ -2,12 +2,12 @@ package fr.lequipedechoc.hackathon_api.cross_cutting.constants;
 
 public class MessagesEn {
         // Auth
-        public final static String REGISTER_OK_MAIL_SENDED = "Your Inote account has been created. Before you can use it, you need to activate it via the e-mail we've just sent you.";
+        public final static String REGISTER_OK_MAIL_SENDED = "Your account has been created. Before you can use it, you need to activate it via the e-mail we've just sent you.";
         public final static String REGISTER_ERROR_USER_ALREADY_EXISTS = "Account creation impossible. A user with this email address is already registered.";
 
         // Activation
         public final static String ACTIVATION_NEED_ACTIVATION = """
-                        Inote Notification Service
+                        L'Equipe De Choc Notification Service
 
                         Your request was successful. To complete the operation, please retrieve the activation code sent to your mailbox.
 

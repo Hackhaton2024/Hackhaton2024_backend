@@ -215,7 +215,7 @@ public class NotificationServiceImplTest {
 
                                         MimeMessage receivedMessage = receivedMessages[0];
                                         assertThat(GreenMailUtil.getBody(receivedMessage))
-                                                        .contains("Inote notification service");
+                                                        .contains("L'Equipe De Choc Notification Service");
 
                                         assertThat(receivedMessage.getAllRecipients().length).isEqualTo(1);
                                         assertThat(receivedMessage.getAllRecipients()[0].toString())

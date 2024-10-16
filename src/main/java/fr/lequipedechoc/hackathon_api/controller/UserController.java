@@ -22,7 +22,7 @@ import java.util.List;
 /**
  * Controller for related Users operations
  * 
- * @author atsuhiko Mochizuki
+ * @author T.NGUYEN
  * @date 2024-06-11
  */
 @RestController

@@ -20,7 +20,7 @@ import java.util.Random;
 /**
  * The Service ValidationServiceImpl
  * 
- * @author Atsuhiko Mochizuki
+ * @author T.NGUYEN
  * @date 11/04/2024
  */
 @Transactional
@@ -44,7 +44,7 @@ public class ValidationServiceImpl implements ValidationService {
      * Create and save validation in database
      *
      * @param user the user to save
-     * @author atsuhiko Mochizuki
+     * @author T.NGUYEN
      * @throws InoteMailException 
      * @throws MailException 
      * @date 2024-03-26

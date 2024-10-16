@@ -24,7 +24,7 @@ import fr.lequipedechoc.hackathon_api.service.impl.UserServiceImpl;
 /**
  * Controller for account user routes
  *
- * @author atsuhiko Mochizuki
+ * @author T.NGUYEN
  * @date 10/04/2024
  */
 

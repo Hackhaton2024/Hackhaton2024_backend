@@ -18,7 +18,7 @@ import fr.lequipedechoc.hackathon_api.service.CommentService;
 /**
  * The Service CommentServiceImpl
  * 
- * @author Atsuhiko Mochizuki
+ * @author T.NGUYEN
  * @date 11/04/2024
  */
 @Service
@@ -44,7 +44,7 @@ public class CommentServiceImpl implements CommentService {
      * @return Comment
      * @throws InoteEmptyMessageCommentException
      * 
-     * @author Atsuhiko Mochizuki
+     * @author T.NGUYEN
      * @date 11/04/2024
      */
     public Comment createComment(String msg) throws InoteEmptyMessageCommentException {
@@ -66,7 +66,7 @@ public class CommentServiceImpl implements CommentService {
      * Get the list of all comments recorded
      *
      * @return the list of all comments in database
-     * @author atsuhiko Mochizuki
+     * @author T.NGUYEN
      * @date 11/04/2024
      */
     public List<CommentResponseDto> getAll() {

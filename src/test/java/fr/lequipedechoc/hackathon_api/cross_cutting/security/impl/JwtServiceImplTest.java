@@ -50,7 +50,7 @@ import static org.mockito.Mockito.*;
 /**
  * Unit tests of service JwtService
  *
- * @author atsuhiko Mochizuki
+ * @author T.NGUYEN
  * @date 28/03/2024
  */
 

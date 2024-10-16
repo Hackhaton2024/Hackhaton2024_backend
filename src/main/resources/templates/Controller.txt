@@ -28,7 +28,7 @@ import static fr.inote.inoteApi.crossCutting.constants.HttpRequestBody.REFRESH;
 /**
  * Controller for account user routes
  *
- * @author atsuhiko Mochizuki
+ * @author T.NGUYEN
  * @date 10/04/2024
  */
 

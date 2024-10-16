@@ -38,7 +38,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 /**
  * Unit tests of repository JwtRepository
  *
- * @author atsuhiko Mochizuki
+ * @author T.NGUYEN
  * @date 28/03/2024
  */
 

@@ -53,7 +53,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 /**
  * Integration tests of Endpoints related to users
  *
- * @author atsuhikoMochizuki
+ * @author T.NGUYEN
  * @date 2024-06-11
  */
 

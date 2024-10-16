@@ -8,7 +8,7 @@ import org.springframework.test.context.ActiveProfiles;
 /**
  * Unit tests of service
  *
- * @author atsuhiko Mochizuki
+ * @author T.NGUYEN
  * @date 28/03/2024
  */
 

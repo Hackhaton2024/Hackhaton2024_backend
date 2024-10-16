@@ -314,7 +314,7 @@ public class CommentController_IT {
          * @return token value
          * @throws Exception when anomaly occurs
          * @date 11/04/2024
-         * @author AtsuhikoMochizuki
+         * @author T.NGUYEN
          */
         private String connectAndReturnBearer() throws JsonProcessingException, Exception {
                 /* Arrange */
@@ -378,7 +378,7 @@ public class CommentController_IT {
          * @return token value
          * @throws Exception when anomaly occurs
          * @date 11/04/2024
-         * @author AtsuhikoMochizuki
+         * @author T.NGUYEN
          */
         private String connectTesterAndReturnBearer() throws Exception {
 

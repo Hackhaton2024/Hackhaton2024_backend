@@ -1,6 +1,6 @@
 #!/bin/bash
 # Add changes, commit, push on remote and update root project for referencing last changes on submodule
-# AtsuhikoMochizuki 11/06/2024
+# T.NGUYEN 11/06/2024
 #===================================================================================
 clear
 echo "
@@ -13,7 +13,7 @@ echo "
  User-friendly personal notes manager
  ==============================================================================
   Commit & update Root project
-  By @AtsuhikoMochizuki
+  By @T.NGUYEN
   2024
  ==============================================================================                                 
 "

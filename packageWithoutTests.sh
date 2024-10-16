@@ -1,6 +1,6 @@
 #/usr/bin/bash
 # Package Api without tests
-# AtsuhikoMochizuki 04/06/2024
+# T.NGUYEN 04/06/2024
 #===================================================================================
 readonly TITLE='Inote API packaging without tests'
 echo "
@@ -13,7 +13,7 @@ echo "
  User-friendly personal notes manager
  ==============================================================================
   INOTE REST API - DEV TOOL
-  By @AtsuhikoMochizuki
+  By T.NGUYEN
   2024
  ==============================================================================                                 
 "

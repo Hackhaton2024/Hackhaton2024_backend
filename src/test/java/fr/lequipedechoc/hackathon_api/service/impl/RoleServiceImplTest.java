@@ -24,7 +24,7 @@ import static org.mockito.Mockito.*;
 /**
  * Unit tests of service RoleService
  *
- * @author atsuhiko Mochizuki
+ * @author T.NGUYEN
  * @date 28/03/2024
  */
 

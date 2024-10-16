@@ -31,7 +31,7 @@ import static org.mockito.Mockito.*;
 /**
  * Unit tests of service ValidationServiceImplTest
  *
- * @author atsuhiko Mochizuki
+ * @author T.NGUYEN
  * @date 28/03/2024
  */
 

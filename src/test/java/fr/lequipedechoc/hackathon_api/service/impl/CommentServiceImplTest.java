@@ -37,7 +37,7 @@ import static org.assertj.core.api.Assertions.*;
 /**
  * Unit tests of service CommentService
  *
- * @author atsuhiko Mochizuki
+ * @author T.NGUYEN
  * @date 28/03/2024
  */
 

@@ -74,7 +74,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 /**
  * Integration tests of Endpoints
  *
- * @author atsuhiko Mochizuki
+ * @author T.NGUYEN
  * @date 10/04/2024
  */
 

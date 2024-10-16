@@ -45,7 +45,7 @@ import java.util.List;
 /**
  * Unit tests of Controller layer
  *
- * @author atsuhiko Mochizuki
+ * @author T.NGUYEN
  * @date 10/04/2024
  */
 /*

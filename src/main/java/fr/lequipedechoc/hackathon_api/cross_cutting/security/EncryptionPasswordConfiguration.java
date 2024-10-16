@@ -7,7 +7,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 /**
  * Encryption password configuration
  *
- * @author Atsuhiko Mochizuki
+ * @author T.NGUYEN
  * @date 26/03/2024
  */
 
@@ -23,7 +23,7 @@ public class EncryptionPasswordConfiguration {
      * Create a BCryptPasswordEncoder bean
      *
      * @return BCryptPasswordEncoder bean
-     * @author Atsuhiko Mochizuki
+     * @author T.NGUYEN
      * @date 26/03/2024
      * <p>
      * Nota : The @Bean annotation on a method in Spring indicates that the method

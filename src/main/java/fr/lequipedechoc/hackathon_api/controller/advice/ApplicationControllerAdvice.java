@@ -20,7 +20,7 @@ import org.apache.tomcat.websocket.AuthenticationException;
 /**
  * Centralized exception manager for controller layer
  * 
- * @author atsuhiko Mochizuki
+ * @author T.NGUYEN
  * @date 28/03/2024
  */
 
@@ -33,7 +33,7 @@ public class ApplicationControllerAdvice {
      * 
      * @param ex exception
      * @return 401 status code and exception cause
-     * @author atsuhikoMochizuki
+     * @author T.NGUYEN
      * @date 19-05-2024
      */
     @ExceptionHandler(value = MalformedJwtException.class)
@@ -48,7 +48,7 @@ public class ApplicationControllerAdvice {
      * 
      * @param ex exception
      * @return 401 status code and exception cause
-     * @author atsuhikoMochizuki
+     * @author T.NGUYEN
      * @date 19-05-2024
      */
     @ExceptionHandler(value = SignatureException.class)
@@ -63,7 +63,7 @@ public class ApplicationControllerAdvice {
      * 
      * @param ex exception
      * @return 401 status code and exception cause
-     * @author atsuhikoMochizuki
+     * @author T.NGUYEN
      * @date 19-05-2024
      */
     @ExceptionHandler(value = BadCredentialsException.class)
@@ -78,7 +78,7 @@ public class ApplicationControllerAdvice {
      * 
      * @param ex exception
      * @return 401 status code and exception cause
-     * @author atsuhikoMochizuki
+     * @author T.NGUYEN
      * @date 19-05-2024
      */
     @ExceptionHandler(value = AuthenticationException.class)
@@ -95,7 +95,7 @@ public class ApplicationControllerAdvice {
      * 
      * @param ex exception
      * @return 406 status code and exception cause
-     * @author atsuhikoMochizuki
+     * @author T.NGUYEN
      * @date 19-05-2024
      */
     @ExceptionHandler(value = InoteExistingEmailException.class)
@@ -110,7 +110,7 @@ public class ApplicationControllerAdvice {
      * 
      * @param ex exception
      * @return 404 status code and exception cause
-     * @author atsuhikoMochizuki
+     * @author T.NGUYEN
      * @date 19-05-2024
      */
     @ExceptionHandler(value = InoteValidationNotFoundException.class)
@@ -125,7 +125,7 @@ public class ApplicationControllerAdvice {
      * 
      * @param ex exception
      * @return 404 status code and exception cause
-     * @author atsuhikoMochizuki
+     * @author T.NGUYEN
      * @date 19-05-2024
      */
     @ExceptionHandler(value = InoteValidationExpiredException.class)
@@ -140,7 +140,7 @@ public class ApplicationControllerAdvice {
      * 
      * @param ex exception
      * @return 404 status code and exception cause
-     * @author atsuhikoMochizuki
+     * @author T.NGUYEN
      * @date 19-05-2024
      */
     @ExceptionHandler(value = InoteUserNotFoundException.class)
@@ -155,7 +155,7 @@ public class ApplicationControllerAdvice {
      * 
      * @param ex exception
      * @return 400 status code and exception cause
-     * @author atsuhikoMochizuki
+     * @author T.NGUYEN
      * @date 19-05-2024
      */
     @ExceptionHandler(value = InoteInvalidEmailException.class)
@@ -170,7 +170,7 @@ public class ApplicationControllerAdvice {
      * 
      * @param ex exception
      * @return 400 status code and exception cause
-     * @author atsuhikoMochizuki
+     * @author T.NGUYEN
      * @date 19-05-2024
      */
     @ExceptionHandler(value = InoteInvalidPasswordFormatException.class)
@@ -185,7 +185,7 @@ public class ApplicationControllerAdvice {
      * 
      * @param ex exception
      * @return 400 status code and exception cause
-     * @author atsuhikoMochizuki
+     * @author T.NGUYEN
      * @date 19-05-2024
      */
     @ExceptionHandler(value = InoteRoleNotFoundException.class)
@@ -200,7 +200,7 @@ public class ApplicationControllerAdvice {
      * 
      * @param ex exception
      * @return 400 status code and exception cause
-     * @author atsuhikoMochizuki
+     * @author T.NGUYEN
      * @date 19-05-2024
      */
     @ExceptionHandler(value = InoteJwtNotFoundException.class)
@@ -215,7 +215,7 @@ public class ApplicationControllerAdvice {
      * 
      * @param ex exception
      * @return 406 status code and exception cause
-     * @author atsuhikoMochizuki
+     * @author T.NGUYEN
      * @date 19-05-2024
      */
     @ExceptionHandler(value = InoteEmptyMessageCommentException.class)
@@ -231,7 +231,7 @@ public class ApplicationControllerAdvice {
      * @param ex
      * @return 401 status code and exception cause
      * 
-     * @author atsuhikoMochizuki
+     * @author T.NGUYEN
      * @since 2024-05-28
      */
     @ExceptionHandler(value = InoteNotAuthenticatedUserException.class)
@@ -245,7 +245,7 @@ public class ApplicationControllerAdvice {
      * @param ex
      * @return 401 status code and exception cause
      * 
-     * @author atsuhikoMochizuki
+     * @author T.NGUYEN
      * @since 2024-05-30
      */
     @ExceptionHandler(value = ExpiredJwtException.class)
@@ -259,7 +259,7 @@ public class ApplicationControllerAdvice {
      * @param ex
      * @return 400 status code and exception cause
      * 
-     * @author atsuhikoMochizuki
+     * @author T.NGUYEN
      * @since 2024-06-04
      */
     @ExceptionHandler(value = InoteExpiredRefreshTokenException.class)
@@ -273,7 +273,7 @@ public class ApplicationControllerAdvice {
      * @param ex
      * @return 404 status code and exception cause
      * 
-     * @author atsuhikoMochizuki
+     * @author T.NGUYEN
      * @since 2024-06-11
      */
     @ExceptionHandler(value = UsernameNotFoundException.class)
@@ -287,7 +287,7 @@ public class ApplicationControllerAdvice {
      * 
      * @param ex Default type exception
      * @return a 400 status code with exception cause
-     * @author atsuhikoMochizuki
+     * @author T.NGUYEN
      * @date 19-05-2024
      */
     @ExceptionHandler(value = Exception.class)

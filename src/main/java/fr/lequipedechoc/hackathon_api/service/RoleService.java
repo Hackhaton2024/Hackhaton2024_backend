@@ -11,7 +11,7 @@ public interface RoleService {
      * Populates the role table from the dedicated enumeration
      *
      * @return list of saved roles
-     * @author atsuhiko Mochizuki
+     * @author T.NGUYEN
      * @date 28/03/2024
      */
     List<Role> insertRolesInDb();
@@ -20,7 +20,7 @@ public interface RoleService {
      * Load admin role
      *
      * @return Singleton of asked admin Role
-     * @author atsuhiko Mochizuki
+     * @author T.NGUYEN
      * @date 28/03/2024
      */
     Role loadAdminRole() throws InoteUserException;
@@ -29,7 +29,7 @@ public interface RoleService {
      * Load Manager role
      *
      * @return Singleton of asked manager Role
-     * @author atsuhiko Mochizuki
+     * @author T.NGUYEN
      * @date 28/03/2024
      */
     Role loadManagerRole() throws InoteUserException;
@@ -38,7 +38,7 @@ public interface RoleService {
      * Load User role
      *
      * @return Singleton of asked user Role
-     * @author atsuhiko Mochizuki
+     * @author T.NGUYEN
      * @date 28/03/2024
      */
     Role loadUserRole() throws InoteUserException;

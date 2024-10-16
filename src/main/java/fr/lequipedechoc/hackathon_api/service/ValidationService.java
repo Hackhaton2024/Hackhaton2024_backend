@@ -10,7 +10,7 @@ import fr.lequipedechoc.hackathon_api.entity.Validation;
 
 /**
  * The interface Validation service.
- * @author atsuhiko Mochizuki
+ * @author T.NGUYEN
  * @date 2024-03-26T15:30:00Z
  * <p>
  * Validation Service
@@ -44,7 +44,7 @@ public interface ValidationService {
      * Save validation in database
      *
      * @param user the user to save
-     * @author atsuhiko Mochizuki
+     * @author T.NGUYEN
      * @throws InoteMailException 
      * @throws MailException 
      * @date 2024-03-26

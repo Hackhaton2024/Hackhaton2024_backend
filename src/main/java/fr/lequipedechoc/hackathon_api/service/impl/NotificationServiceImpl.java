@@ -23,7 +23,7 @@ import fr.lequipedechoc.hackathon_api.service.NotificationService;
 /**
  * The Service NotificationServiceImpl
  * 
- * @author Atsuhiko Mochizuki
+ * @author T.NGUYEN
  * @date 11/04/2024
  */
 @Service
@@ -54,7 +54,7 @@ public class NotificationServiceImpl implements NotificationService {
      * Send validation by email.
      *
      * @param validation the validation
-     * @author atsuhiko Mochizuki
+     * @author T.NGUYEN
      * @throws InoteMailException
      * @date 26-03-2024
      */
@@ -73,14 +73,14 @@ public class NotificationServiceImpl implements NotificationService {
                     "Your activation code",
                     String.format(
                             """
-                                    Inote notification service
+                                L'Equipe De Choc Notification Service
                                     %s
 
                                     Hello %s, you have made on %s a request that requires an activation code.
                                     Please enter the following code in asked field:
                                     activation code : %s
 
-                                    Inote wishes you a good day!
+                                    L'Equipe De Choc wishes you a good day!
                                     """,
                             EMAIL_SUBJECT_ACTIVATION_CODE,
                             validation.getUser().getName(),
@@ -103,7 +103,7 @@ public class NotificationServiceImpl implements NotificationService {
      * @throws MailException
      * @throws InoteInvalidEmailException
      * 
-     * @author Atsuhiko Mochizuki
+     * @author T.NGUYEN
      * @date 11/04/2024
      */
     private void sendEmail(String from,

@@ -13,7 +13,7 @@ import java.util.List;
 
 /**
  * The Service RoleServiceImpl
- * @author Atsuhiko Mochizuki
+ * @author T.NGUYEN
  * @date   11/04/2024
  */
 @Service
@@ -34,7 +34,7 @@ public class RoleServiceImpl implements RoleService {
      * Populates the role table from the dedicated enumeration
      *
      * @return persisted roles in database
-     * @author atsuhiko Mochizuki
+     * @author T.NGUYEN
      * @date 28/03/2024
      */
     @Override
@@ -51,7 +51,7 @@ public class RoleServiceImpl implements RoleService {
      * Load admin role
      *
      * @return Singleton of asked admin Role
-     * @author atsuhiko Mochizuki
+     * @author T.NGUYEN
      * @date 28/03/2024
      */
     @Override
@@ -63,7 +63,7 @@ public class RoleServiceImpl implements RoleService {
      * Load Manager role
      *
      * @return Singleton of asked manager Role
-     * @author atsuhiko Mochizuki
+     * @author T.NGUYEN
      * @date 28/03/2024
      */
     @Override
@@ -75,7 +75,7 @@ public class RoleServiceImpl implements RoleService {
      * Load User role
      *
      * @return Singleton of asked user Role
-     * @author atsuhiko Mochizuki
+     * @author T.NGUYEN
      * @date 28/03/2024
      */
     @Override

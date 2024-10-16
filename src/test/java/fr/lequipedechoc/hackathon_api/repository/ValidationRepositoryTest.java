@@ -30,7 +30,7 @@ import static org.mockito.Mockito.*;
 /**
  * Unit tests of repository ValidationRepositoryTest
  *
- * @author atsuhiko Mochizuki
+ * @author T.NGUYEN
  * @date 28/03/2024
  */
 

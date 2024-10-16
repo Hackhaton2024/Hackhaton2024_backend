@@ -27,7 +27,7 @@ import static org.mockito.Mockito.*;
 /**
  * Unit tests of repository UserRepositoryTest
  *
- * @author atsuhiko Mochizuki
+ * @author T.NGUYEN
  * @date 28/03/2024
  */
 

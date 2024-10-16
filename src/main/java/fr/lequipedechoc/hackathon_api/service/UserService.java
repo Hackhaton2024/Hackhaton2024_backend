@@ -25,7 +25,7 @@ public interface UserService extends UserDetailsService {
      *             <p>
      * @return the user
      * @throws InoteExistingEmailException
-     * @author Atsuhiko Mochizuki
+     * @author T.NGUYEN
      * @throws InoteMailException 
      * @throws MailException 
      * @date 26/03/2024

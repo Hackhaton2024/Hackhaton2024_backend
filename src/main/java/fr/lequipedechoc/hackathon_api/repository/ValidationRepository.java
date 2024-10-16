@@ -16,7 +16,7 @@ public interface ValidationRepository extends CrudRepository<Validation, Integer
      *
      * @param code the code
      * @return the optional
-     * @author AtsuhikoMochizuki
+     * @author T.NGUYEN
      */
     Optional<Validation> findByCode(String code);
 
@@ -25,7 +25,7 @@ public interface ValidationRepository extends CrudRepository<Validation, Integer
      * time passed in parameters
      *
      * @param now actualInstant of call method
-     * @author AtsuhikoMochizuki
+     * @author T.NGUYEN
      */
     void deleteAllByExpirationBefore(Instant now);
 }

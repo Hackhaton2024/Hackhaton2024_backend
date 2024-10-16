@@ -20,7 +20,7 @@ import fr.lequipedechoc.hackathon_api.entity.Role;
 /**
  * Unit tests of repository
  *
- * @author atsuhiko Mochizuki
+ * @author T.NGUYEN
  * @date 28/03/2024
  */
 
