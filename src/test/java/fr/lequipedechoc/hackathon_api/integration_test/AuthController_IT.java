@@ -185,869 +185,869 @@ public class AuthController_IT {
         /* CONTROLLERS INTEGRATION TEST */
         /* ============================================================ */
 
-//         @Test
-//         @DisplayName("Register an non" +
-//                         " existing user")
-//         void IT_register_shouldSuccess_whenUserNotExist() throws Exception {
-
-//                 /* Act & assert */
-//                 // Send request, print response, check returned status and primary checking
-//                 // (status code, content body type...)
-//                 this.mockMvc.perform(
-//                                 post(Endpoint.REGISTER)
-//                                                 .contentType(MediaType.APPLICATION_JSON_VALUE)
-//                                                 .content(this.objectMapper.writeValueAsString(this.registerRequestDto)))
-//                                 .andExpect(MockMvcResultMatchers.status().isCreated())
-//                                 .andExpect(MockMvcResultMatchers.content()
-//                                                 .string(MessagesEn.ACTIVATION_NEED_ACTIVATION));
-//                 await()
-//                                 .atMost(2, SECONDS)
-//                                 .untilAsserted(() -> {
-//                                         MimeMessage[] receivedMessages = greenMail.getReceivedMessages();
-//                                         assertThat(receivedMessages.length).isEqualTo(1);
-
-//                                         MimeMessage receivedMessage = receivedMessages[0];
-//                                         assertThat(GreenMailUtil.getBody(receivedMessage))
-//                                                         .contains(EMAIL_SUBJECT_ACTIVATION_CODE);
-//                                 });
-//         }
-
-//         @Test
-//         @DisplayName("Activate an user with good code")
-//         void IT_activation_ShouldSuccess_whenCodeIsCorrect() throws Exception {
-
-//                 /* Arrange */
-//                 final String[] messageContainingCode = new String[1];
-
-//                 this.mockMvc.perform(
-//                                 post(Endpoint.REGISTER)
-//                                                 .contentType(MediaType.APPLICATION_JSON_VALUE)
-//                                                 .content(this.objectMapper.writeValueAsString(this.registerRequestDto)))
-//                                 .andExpect(MockMvcResultMatchers.status().isCreated());
-//                 await()
-//                                 .atMost(2, SECONDS)
-//                                 .untilAsserted(() -> {
-//                                         MimeMessage[] receivedMessages = greenMail.getReceivedMessages();
-//                                         assertThat(receivedMessages.length).isEqualTo(1);
-
-//                                         MimeMessage receivedMessage = receivedMessages[0];
-
-//                                         messageContainingCode[0] = GreenMailUtil.getBody(receivedMessage);
-//                                         assertThat(messageContainingCode[0]).contains(EMAIL_SUBJECT_ACTIVATION_CODE);
-//                                 });
-
-//                 final String reference = "activation code : ";
-//                 int startSubtring = messageContainingCode[0].indexOf(reference);
-//                 int startIndexOfCode = startSubtring + reference.length();
-//                 int endIndexOfCode = startIndexOfCode + 6;
-//                 String extractedCode = messageContainingCode[0].substring(startIndexOfCode, endIndexOfCode);
-//                 Map<String, String> bodyRequest = new HashMap<>();
-//                 bodyRequest.put("code", extractedCode);
-
-//                 /* Act & assert */
-//                 // Send request, print response, check returned status and primary checking
-//                 // (status code, content body type...)
-//                 ResultActions response = this.mockMvc.perform(
-//                                 post(Endpoint.ACTIVATION)
-//                                                 .contentType(MediaType.APPLICATION_JSON_VALUE)
-//                                                 .content(this.objectMapper.writeValueAsString(bodyRequest)))
-//                                 .andExpect(MockMvcResultMatchers.status().isOk());
-
-//                 String returnedResponse = response.andReturn().getResponse().getContentAsString();
-
-//                 /* Assert */
-//                 assertThat(returnedResponse).isEqualTo(MessagesEn.ACTIVATION_OF_USER_OK);
-
-//         }
-
-//         @Test
-//         @DisplayName("Activate an user with bad code")
-//         void IT_activation_ShouldFail_whenCodeIsNotCorrect() throws Exception {
-//                 Map<String, String> bodyRequest = new HashMap<>();
-//                 bodyRequest.put("code", "BadCode");
-
-//                 /* Act & assert */
-//                 this.mockMvc.perform(
-//                                 post(Endpoint.ACTIVATION)
-//                                                 .contentType(MediaType.APPLICATION_JSON_VALUE)
-//                                                 .content(this.objectMapper.writeValueAsString(bodyRequest)))
-//                                 .andExpect(MockMvcResultMatchers.status().isNotFound());
-//         }
-
-//         @Test
-//         @DisplayName("Sign user with good credentials")
-//         void IT_signIn_ShouldSuccess_whenCredentialsAreCorrect() throws Exception {
-//                 /* Arrange */
-//                 final String[] messageContainingCode = new String[1];
-//                 this.mockMvc.perform(
-//                                 post(Endpoint.REGISTER)
-//                                                 .contentType(MediaType.APPLICATION_JSON_VALUE)
-//                                                 .content(this.objectMapper
-//                                                                 .writeValueAsString(this.registerRequestDto)));
-//                 await()
-//                                 .atMost(2, SECONDS)
-//                                 .untilAsserted(() -> {
-//                                         MimeMessage[] receivedMessages = greenMail.getReceivedMessages();
-//                                         assertThat(receivedMessages.length).isEqualTo(1);
-
-//                                         MimeMessage receivedMessage = receivedMessages[0];
-
-//                                         messageContainingCode[0] = GreenMailUtil.getBody(receivedMessage);
-//                                         assertThat(messageContainingCode[0]).contains(EMAIL_SUBJECT_ACTIVATION_CODE);
-//                                 });
-
-//                 final String reference = "activation code : ";
-//                 int startSubtring = messageContainingCode[0].indexOf(reference);
-//                 int startIndexOfCode = startSubtring + reference.length();
-//                 int endIndexOfCode = startIndexOfCode + 6;
-//                 String extractedCode = messageContainingCode[0].substring(startIndexOfCode, endIndexOfCode);
-//                 ActivationRequestDto activationDtoRequest = new ActivationRequestDto(extractedCode);
-//                 ResultActions response = this.mockMvc.perform(
-//                                 post(Endpoint.ACTIVATION)
-//                                                 .contentType(MediaType.APPLICATION_JSON_VALUE)
-//                                                 .content(this.objectMapper.writeValueAsString(activationDtoRequest)))
-//                                 .andExpect(MockMvcResultMatchers.status().isOk());
-
-//                 String returnedResponse = response.andReturn().getResponse().getContentAsString();
-
-//                 /* Assert */
-//                 assertThat(returnedResponse).isEqualTo(MessagesEn.ACTIVATION_OF_USER_OK);
-
-//                 /* Act */
-//                 // Send request, print response, check returned status and content type
-//                 SignInRequestDto authenticationDtoRequest = new SignInRequestDto(
-//                                 this.registerRequestDto.username(), this.registerRequestDto.password());
-
-//                 response = this.mockMvc.perform(
-//                                 post(Endpoint.SIGN_IN)
-//                                                 .contentType(MediaType.APPLICATION_JSON_VALUE)
-//                                                 .content(this.objectMapper
-//                                                                 .writeValueAsString(authenticationDtoRequest)))
-//                                 .andExpect(MockMvcResultMatchers.status().isOk())
-//                                 .andExpect(content().contentType(MediaType.APPLICATION_JSON));
-
-//                 returnedResponse = response.andReturn().getResponse().getContentAsString();
-//                 SignInResponseDto signInDtoresponse = this.objectMapper.readValue(returnedResponse,
-//                                 SignInResponseDto.class);
-
-//                 /* Assert */
-//                 assertThat(signInDtoresponse.bearer().length()).isEqualTo(145);
-//                 assertThat(signInDtoresponse.refresh().length()).isEqualTo(UUID.randomUUID().toString().length());
-//         }
-
-//         @Test
-//         @DisplayName("Sign user with bad credentials")
-//         void IT_signIn_ShouldFail_whenCredentialsAreNotCorrect() throws Exception {
-
-//                 /* Act & assert */
-//                 SignInRequestDto authenticationDtoRequest = new SignInRequestDto(
-//                                 "JamesWebb@triton.com", "fjOM487$?8dd");
-
-//                 this.mockMvc.perform(
-//                                 post(Endpoint.SIGN_IN)
-//                                                 .contentType(MediaType.APPLICATION_JSON_VALUE)
-//                                                 .content(this.objectMapper
-//                                                                 .writeValueAsString(authenticationDtoRequest)))
-//                                 .andExpect(MockMvcResultMatchers.status().isUnauthorized());
-//         }
-
-//         @Test
-//         @DisplayName("Change password of existing user")
-//         void IT_changePassword_ShouldSuccess_WhenUsernameExists() throws Exception {
-//                 /* Arrange */
-//                 final String[] messageContainingCode = new String[1];
-//                 this.mockMvc.perform(
-//                                 post(Endpoint.REGISTER)
-//                                                 .contentType(MediaType.APPLICATION_JSON_VALUE)
-//                                                 .content(this.objectMapper
-//                                                                 .writeValueAsString(this.registerRequestDto)));
-//                 await()
-//                                 .atMost(2, SECONDS)
-//                                 .untilAsserted(() -> {
-//                                         MimeMessage[] receivedMessages = greenMail.getReceivedMessages();
-//                                         assertThat(receivedMessages.length).isEqualTo(1);
-
-//                                         MimeMessage receivedMessage = receivedMessages[0];
-
-//                                         messageContainingCode[0] = GreenMailUtil.getBody(receivedMessage);
-//                                         assertThat(messageContainingCode[0]).contains(EMAIL_SUBJECT_ACTIVATION_CODE);
-//                                 });
-
-//                 final String reference = "activation code : ";
-//                 int startSubtring = messageContainingCode[0].indexOf(reference);
-//                 int startIndexOfCode = startSubtring + reference.length();
-//                 int endIndexOfCode = startIndexOfCode + 6;
-//                 String extractedCode = messageContainingCode[0].substring(startIndexOfCode, endIndexOfCode);
-//                 ActivationRequestDto activationDtoRequest = new ActivationRequestDto(extractedCode);
-//                 ResultActions response = this.mockMvc.perform(
-//                                 post(Endpoint.ACTIVATION)
-//                                                 .contentType(MediaType.APPLICATION_JSON_VALUE)
-//                                                 .content(this.objectMapper.writeValueAsString(activationDtoRequest)))
-//                                 .andExpect(MockMvcResultMatchers.status().isOk());
-
-//                 String returnedResponse = response.andReturn().getResponse().getContentAsString();
-
-//                 /* Assert */
-//                 assertThat(returnedResponse).isEqualTo(MessagesEn.ACTIVATION_OF_USER_OK);
-
-//                 /* Act */
-//                 ChangePasswordRequestDto changePasswordDtoRequest = new ChangePasswordRequestDto(
-//                                 this.userRef.getUsername());
-
-//                 this.mockMvc.perform(post(Endpoint.CHANGE_PASSWORD)
-//                                 .contentType(MediaType.APPLICATION_JSON_VALUE)
-//                                 .content(this.objectMapper.writeValueAsString(changePasswordDtoRequest)))
-//                                 .andExpect(MockMvcResultMatchers.status().isOk());
-//         }
-
-//         @Test
-//         @DisplayName("Attempt to change password of a non existing user")
-//         void IT_changePassword_ShouldFail_WhenUsernameNotExist() throws Exception {
-//                 /* Act & assert */
-//                 ChangePasswordRequestDto changePasswordDtoRequest = new ChangePasswordRequestDto(
-//                                 "idontexist@neant.com");
-//                 this.mockMvc.perform(post(Endpoint.CHANGE_PASSWORD)
-//                                 .contentType(MediaType.APPLICATION_JSON_VALUE)
-//                                 .content(this.objectMapper.writeValueAsString(changePasswordDtoRequest)))
-//                                 .andExpect(MockMvcResultMatchers.status().isNotFound());
-//         }
-
-//         @Test
-//         @DisplayName("Attempt to change password with bad formated email")
-//         void IT_changePassword_ShouldFail_WhenEmailIsBadFormated() throws Exception {
-//                 /* Act & assert */
-//                 ChangePasswordRequestDto changePasswordDtoRequest = new ChangePasswordRequestDto(
-//                                 "malformedEmail@@malformed.com");
-//                 this.mockMvc.perform(post(Endpoint.CHANGE_PASSWORD)
-//                                 .contentType(MediaType.APPLICATION_JSON_VALUE)
-//                                 .content(this.objectMapper.writeValueAsString(changePasswordDtoRequest)))
-//                                 .andExpect(MockMvcResultMatchers.status().isNotFound());
-//         }
-
-//         @Test
-//         @DisplayName("set new password of existing user")
-//         void IT_newPassword_ShouldSuccess_WhenUserExists() throws Exception {
-//                 /* Arrange */
-//                 final String[] messageContainingCode = new String[1];
-//                 this.mockMvc.perform(
-//                                 post(Endpoint.REGISTER)
-//                                                 .contentType(MediaType.APPLICATION_JSON_VALUE)
-//                                                 .content(this.objectMapper
-//                                                                 .writeValueAsString(this.registerRequestDto)));
-//                 await()
-//                                 .atMost(2, SECONDS)
-//                                 .untilAsserted(() -> {
-//                                         MimeMessage[] receivedMessages = greenMail.getReceivedMessages();
-//                                         assertThat(receivedMessages.length).isEqualTo(1);
-
-//                                         MimeMessage receivedMessage = receivedMessages[0];
-
-//                                         messageContainingCode[0] = GreenMailUtil.getBody(receivedMessage);
-//                                         assertThat(messageContainingCode[0]).contains(EMAIL_SUBJECT_ACTIVATION_CODE);
-//                                 });
-
-//                 final String reference = "activation code : ";
-//                 int startSubtring = messageContainingCode[0].indexOf(reference);
-//                 int startIndexOfCode = startSubtring + reference.length();
-//                 int endIndexOfCode = startIndexOfCode + 6;
-//                 String extractedCode = messageContainingCode[0].substring(startIndexOfCode, endIndexOfCode);
-//                 ActivationRequestDto activationDtoRequest = new ActivationRequestDto(extractedCode);
-//                 ResultActions response = this.mockMvc.perform(
-//                                 post(Endpoint.ACTIVATION)
-//                                                 .contentType(MediaType.APPLICATION_JSON_VALUE)
-//                                                 .content(this.objectMapper.writeValueAsString(activationDtoRequest)))
-//                                 .andExpect(MockMvcResultMatchers.status().isOk());
-
-//                 String returnedResponse = response.andReturn().getResponse().getContentAsString();
-
-//                 /* Assert */
-//                 assertThat(returnedResponse).isEqualTo(MessagesEn.ACTIVATION_OF_USER_OK);
-
-//                 ChangePasswordRequestDto changePasswordDtoRequest = new ChangePasswordRequestDto(
-//                                 this.registerRequestDto.username());
-
-//                 this.mockMvc.perform(post(Endpoint.CHANGE_PASSWORD)
-//                                 .contentType(MediaType.APPLICATION_JSON_VALUE)
-//                                 .content(this.objectMapper.writeValueAsString(changePasswordDtoRequest)))
-//                                 .andExpect(MockMvcResultMatchers.status().isOk());
-
-//                 // activation code recuperation
-//                 await()
-//                                 .atMost(2, SECONDS)
-//                                 .untilAsserted(() -> {
-//                                         MimeMessage[] receivedMessages = greenMail.getReceivedMessages();
-//                                         assertThat(receivedMessages.length).isEqualTo(2);
-
-//                                         MimeMessage receivedMessage = receivedMessages[0];
-
-//                                         messageContainingCode[0] = GreenMailUtil.getBody(receivedMessage);
-//                                         assertThat(messageContainingCode[0]).contains(EMAIL_SUBJECT_ACTIVATION_CODE);
-//                                 });
-
-//                 String codeStr = "activation code : ";
-//                 startSubtring = messageContainingCode[0].indexOf(codeStr);
-//                 startIndexOfCode = startSubtring + reference.length();
-//                 endIndexOfCode = startIndexOfCode + 6;
-//                 extractedCode = messageContainingCode[0].substring(startIndexOfCode, endIndexOfCode);
-
-//                 /* Act & assert */
-//                 NewPasswordRequestDto passwordDtoRequest = new NewPasswordRequestDto(
-//                                 this.registerRequestDto.username(),
-//                                 extractedCode,
-//                                 "klfbeUB22@@@?sdjfJJ");
-
-//                 this.mockMvc.perform(post(Endpoint.NEW_PASSWORD)
-//                                 .contentType(MediaType.APPLICATION_JSON_VALUE)
-//                                 .content(this.objectMapper.writeValueAsString(passwordDtoRequest)))
-//                                 .andExpect(MockMvcResultMatchers.status().isOk())
-//                                 .andExpect(MockMvcResultMatchers.content().string(MessagesEn.NEW_PASSWORD_SUCCESS));
-//         }
-
-//         @Test
-//         @DisplayName("set new password of non existing user")
-//         void IT_newPassword_ShouldFail_WhenUserNotExists() throws Exception {
-//                 /* Act & assert */
-//                 NewPasswordRequestDto newPasswordDto = new NewPasswordRequestDto(
-//                                 this.validationRef.getUser().getEmail(),
-//                                 this.validationRef.getCode(),
-//                                 this.validationRef.getUser().getPassword());
-
-//                 // Act
-//                 this.mockMvc.perform(post(Endpoint.NEW_PASSWORD)
-//                                 .contentType(MediaType.APPLICATION_JSON_VALUE)
-//                                 .content(this.objectMapper.writeValueAsString(newPasswordDto)))
-//                                 .andExpect(MockMvcResultMatchers.status().isNotFound());
-//         }
-
-//         @Test
-//         @DisplayName("set new password with non-referenced validation by code")
-//         void IT_newPassword_ShouldFail_WhenValidationNotExists() throws Exception {
-//                 /* Arrange */
-//                 final String[] messageContainingCode = new String[1];
-//                 this.mockMvc.perform(
-//                                 post(Endpoint.REGISTER)
-//                                                 .contentType(MediaType.APPLICATION_JSON_VALUE)
-//                                                 .content(this.objectMapper
-//                                                                 .writeValueAsString(this.registerRequestDto)));
-//                 await()
-//                                 .atMost(2, SECONDS)
-//                                 .untilAsserted(() -> {
-//                                         MimeMessage[] receivedMessages = greenMail.getReceivedMessages();
-//                                         assertThat(receivedMessages.length).isEqualTo(1);
-
-//                                         MimeMessage receivedMessage = receivedMessages[0];
-
-//                                         messageContainingCode[0] = GreenMailUtil.getBody(receivedMessage);
-//                                         assertThat(messageContainingCode[0]).contains(EMAIL_SUBJECT_ACTIVATION_CODE);
-//                                 });
-
-//                 final String reference = "activation code : ";
-//                 int startSubtring = messageContainingCode[0].indexOf(reference);
-//                 int startIndexOfCode = startSubtring + reference.length();
-//                 int endIndexOfCode = startIndexOfCode + 6;
-//                 String extractedCode = messageContainingCode[0].substring(startIndexOfCode, endIndexOfCode);
-//                 ActivationRequestDto activationDtoRequest = new ActivationRequestDto(extractedCode);
-//                 ResultActions response = this.mockMvc.perform(
-//                                 post(Endpoint.ACTIVATION)
-//                                                 .contentType(MediaType.APPLICATION_JSON_VALUE)
-//                                                 .content(this.objectMapper.writeValueAsString(activationDtoRequest)))
-//                                 .andExpect(MockMvcResultMatchers.status().isOk());
-
-//                 String returnedResponse = response.andReturn().getResponse().getContentAsString();
-
-//                 /* Assert */
-//                 assertThat(returnedResponse).isEqualTo(MessagesEn.ACTIVATION_OF_USER_OK);
-
-//                 ChangePasswordRequestDto changePasswordDtoRequest = new ChangePasswordRequestDto(
-//                                 this.registerRequestDto.username());
-
-//                 this.mockMvc.perform(post(Endpoint.CHANGE_PASSWORD)
-//                                 .contentType(MediaType.APPLICATION_JSON_VALUE)
-//                                 .content(this.objectMapper.writeValueAsString(changePasswordDtoRequest)))
-//                                 .andExpect(MockMvcResultMatchers.status().isOk());
-
-//                 // activation code recuperation
-//                 await()
-//                                 .atMost(2, SECONDS)
-//                                 .untilAsserted(() -> {
-//                                         MimeMessage[] receivedMessages = greenMail.getReceivedMessages();
-//                                         assertThat(receivedMessages.length).isEqualTo(2);
-
-//                                         MimeMessage receivedMessage = receivedMessages[0];
-
-//                                         messageContainingCode[0] = GreenMailUtil.getBody(receivedMessage);
-//                                         assertThat(messageContainingCode[0]).contains(EMAIL_SUBJECT_ACTIVATION_CODE);
-//                                 });
-
-//                 String codeStr = "activation code : ";
-//                 startSubtring = messageContainingCode[0].indexOf(codeStr);
-//                 startIndexOfCode = startSubtring + reference.length();
-//                 endIndexOfCode = startIndexOfCode + 6;
-//                 extractedCode = messageContainingCode[0].substring(startIndexOfCode, endIndexOfCode);
-
-//                 /* Act & assert */
-//                 NewPasswordRequestDto newPasswordDto = new NewPasswordRequestDto(
-//                                 this.registerRequestDto.username(),
-//                                 "1111111",
-//                                 "klfbeUB22@@@?sdjfJJ");
-
-//                 this.mockMvc.perform(post(Endpoint.NEW_PASSWORD)
-//                                 .contentType(MediaType.APPLICATION_JSON_VALUE)
-//                                 .content(this.objectMapper.writeValueAsString(newPasswordDto)))
-//                                 .andExpect(MockMvcResultMatchers.status().isNotFound());
-//         }
-
-//         @Test
-//         @DisplayName("set new password with not enough secured password")
-//         void IT_newPassword_ShouldFail_WhenPasswordIsNotEnoughSecured() throws Exception {
-
-//                 /* Arrange */
-//                 final String[] messageContainingCode = new String[1];
-//                 this.mockMvc.perform(
-//                                 post(Endpoint.REGISTER)
-//                                                 .contentType(MediaType.APPLICATION_JSON_VALUE)
-//                                                 .content(this.objectMapper
-//                                                                 .writeValueAsString(this.registerRequestDto)));
-//                 await()
-//                                 .atMost(2, SECONDS)
-//                                 .untilAsserted(() -> {
-//                                         MimeMessage[] receivedMessages = greenMail.getReceivedMessages();
-//                                         assertThat(receivedMessages.length).isEqualTo(1);
-
-//                                         MimeMessage receivedMessage = receivedMessages[0];
-
-//                                         messageContainingCode[0] = GreenMailUtil.getBody(receivedMessage);
-//                                         assertThat(messageContainingCode[0]).contains(EMAIL_SUBJECT_ACTIVATION_CODE);
-//                                 });
-
-//                 final String reference = "activation code : ";
-//                 int startSubtring = messageContainingCode[0].indexOf(reference);
-//                 int startIndexOfCode = startSubtring + reference.length();
-//                 int endIndexOfCode = startIndexOfCode + 6;
-//                 String extractedCode = messageContainingCode[0].substring(startIndexOfCode, endIndexOfCode);
-//                 ActivationRequestDto activationDtoRequest = new ActivationRequestDto(extractedCode);
-//                 ResultActions response = this.mockMvc.perform(
-//                                 post(Endpoint.ACTIVATION)
-//                                                 .contentType(MediaType.APPLICATION_JSON_VALUE)
-//                                                 .content(this.objectMapper.writeValueAsString(activationDtoRequest)))
-//                                 .andExpect(MockMvcResultMatchers.status().isOk());
-
-//                 String returnedResponse = response.andReturn().getResponse().getContentAsString();
-
-//                 /* Assert */
-//                 assertThat(returnedResponse).isEqualTo(MessagesEn.ACTIVATION_OF_USER_OK);
-
-//                 ChangePasswordRequestDto changePasswordDtoRequest = new ChangePasswordRequestDto(
-//                                 this.registerRequestDto.username());
-
-//                 this.mockMvc.perform(post(Endpoint.CHANGE_PASSWORD)
-//                                 .contentType(MediaType.APPLICATION_JSON_VALUE)
-//                                 .content(this.objectMapper.writeValueAsString(changePasswordDtoRequest)))
-//                                 .andExpect(MockMvcResultMatchers.status().isOk());
-
-//                 // activation code recuperation
-//                 await()
-//                                 .atMost(2, SECONDS)
-//                                 .untilAsserted(() -> {
-//                                         MimeMessage[] receivedMessages = greenMail.getReceivedMessages();
-//                                         assertThat(receivedMessages.length).isEqualTo(2);
-
-//                                         MimeMessage receivedMessage = receivedMessages[0];
-
-//                                         messageContainingCode[0] = GreenMailUtil.getBody(receivedMessage);
-//                                         assertThat(messageContainingCode[0]).contains(EMAIL_SUBJECT_ACTIVATION_CODE);
-//                                 });
-
-//                 String codeStr = "activation code : ";
-//                 startSubtring = messageContainingCode[0].indexOf(codeStr);
-//                 startIndexOfCode = startSubtring + reference.length();
-//                 endIndexOfCode = startIndexOfCode + 6;
-//                 extractedCode = messageContainingCode[0].substring(startIndexOfCode, endIndexOfCode);
-
-//                 /* Act & assert */
-//                 NewPasswordRequestDto newPasswordDto = new NewPasswordRequestDto(
-//                                 this.registerRequestDto.username(),
-//                                 extractedCode,
-//                                 "1234");
-
-//                 this.mockMvc.perform(post(Endpoint.NEW_PASSWORD)
-//                                 .contentType(MediaType.APPLICATION_JSON_VALUE)
-//                                 .content(this.objectMapper.writeValueAsString(newPasswordDto)))
-//                                 .andExpect(MockMvcResultMatchers.status().isBadRequest());
-//         }
-
-//         @Test
-//         @DisplayName("Refresh connection with correct refresh token value")
-//         void IT_refreshConnectionWithRefreshTokenValue_ShouldSuccess_WhenRefreshTokenValueIsCorrect() throws Exception {
-//                 /* Arrange */
-//                 final String[] messageContainingCode = new String[1];
-//                 this.mockMvc.perform(
-//                                 post(Endpoint.REGISTER)
-//                                                 .contentType(MediaType.APPLICATION_JSON_VALUE)
-//                                                 .content(this.objectMapper
-//                                                                 .writeValueAsString(this.registerRequestDto)));
-//                 await()
-//                                 .atMost(2, SECONDS)
-//                                 .untilAsserted(() -> {
-//                                         MimeMessage[] receivedMessages = greenMail.getReceivedMessages();
-//                                         assertThat(receivedMessages.length).isEqualTo(1);
-
-//                                         MimeMessage receivedMessage = receivedMessages[0];
-
-//                                         messageContainingCode[0] = GreenMailUtil.getBody(receivedMessage);
-//                                         assertThat(messageContainingCode[0]).contains(EMAIL_SUBJECT_ACTIVATION_CODE);
-//                                 });
-
-//                 final String reference = "activation code : ";
-//                 int startSubtring = messageContainingCode[0].indexOf(reference);
-//                 int startIndexOfCode = startSubtring + reference.length();
-//                 int endIndexOfCode = startIndexOfCode + 6;
-//                 String extractedCode = messageContainingCode[0].substring(startIndexOfCode, endIndexOfCode);
-//                 ActivationRequestDto activationDtoRequest = new ActivationRequestDto(extractedCode);
-//                 ResultActions response = this.mockMvc.perform(
-//                                 post(Endpoint.ACTIVATION)
-//                                                 .contentType(MediaType.APPLICATION_JSON_VALUE)
-//                                                 .content(this.objectMapper.writeValueAsString(activationDtoRequest)))
-//                                 .andExpect(MockMvcResultMatchers.status().isOk());
-
-//                 String returnedResponse = response.andReturn().getResponse().getContentAsString();
-
-//                 assertThat(returnedResponse).isEqualTo(MessagesEn.ACTIVATION_OF_USER_OK);
-
-//                 SignInRequestDto authenticationDtoRequest = new SignInRequestDto(
-//                                 this.registerRequestDto.username(), this.registerRequestDto.password());
-
-//                 response = this.mockMvc.perform(
-//                                 post(Endpoint.SIGN_IN)
-//                                                 .contentType(MediaType.APPLICATION_JSON_VALUE)
-//                                                 .content(this.objectMapper
-//                                                                 .writeValueAsString(authenticationDtoRequest)))
-//                                 .andExpect(MockMvcResultMatchers.status().isOk())
-//                                 .andExpect(content().contentType(MediaType.APPLICATION_JSON));
-
-//                 returnedResponse = response.andReturn().getResponse().getContentAsString();
-//                 SignInResponseDto signInDtoresponse = this.objectMapper.readValue(returnedResponse,
-//                                 SignInResponseDto.class);
-//                 assertThat(signInDtoresponse.bearer().length()).isEqualTo(145);
-//                 assertThat(signInDtoresponse.refresh().length()).isEqualTo(UUID.randomUUID().toString().length());
-
-//                 /* Act */
-//                 RefreshRequestDto refreshConnectionDto = new RefreshRequestDto(
-//                                 signInDtoresponse.refresh());
-//                 MvcResult result = this.mockMvc.perform(post(Endpoint.REFRESH_TOKEN)
-//                                 .contentType(MediaType.APPLICATION_JSON_VALUE)
-//                                 .content(this.objectMapper.writeValueAsString(refreshConnectionDto)))
-//                                 .andExpect(MockMvcResultMatchers.status().isCreated())
-//                                 .andReturn();
-
-//                 returnedResponse = result.getResponse().getContentAsString();
-//                 signInDtoresponse = this.objectMapper.readValue(returnedResponse, SignInResponseDto.class);
-
-//                 /* Assert */
-//                 assertThat(signInDtoresponse.bearer().length()).isEqualTo(145);
-//                 assertThat(signInDtoresponse.refresh().length()).isEqualTo(randomUUID().toString().length());
-//         }
-
-//         @Test
-//         @DisplayName("Refresh connection with bad refresh token value")
-//         void IT_refreshConnectionWithRefreshTokenValue_ShouldFail_WhenRefreshTokenValueIsNotCorrect() throws Exception {
-//                 /* Act & assert */
-//                 RefreshRequestDto refreshConnectionDtoRequest = new RefreshRequestDto("badValue");
-//                 this.mockMvc.perform(post(Endpoint.REFRESH_TOKEN)
-//                                 .contentType(MediaType.APPLICATION_JSON_VALUE)
-//                                 .content(this.objectMapper.writeValueAsString(refreshConnectionDtoRequest)))
-//                                 .andExpect(MockMvcResultMatchers.status().isBadRequest());
-//         }
-
-//         @Test
-//         @DisplayName("Refresh connection with expired refresh token value")
-//         void IT_refreshConnectionWithRefreshTokenValue_ShouldFail_WhenRefreshTokenValueIsExpired() throws Exception {
-//                 /* Act & assert */
-//                 this.jwtService.setValidityTokenTimeInSeconds(1);
-//                 this.jwtService.setAdditionalTimeForRefreshTokenInSeconds(1);
-//                 SignInResponseDto expiredCredentials = this.connectAndReturnAllCredentials();
-//                 RefreshRequestDto refreshRequestDto = new RefreshRequestDto(expiredCredentials.refresh());
+        @Test
+        @DisplayName("Register an non" +
+                        " existing user")
+        void IT_register_shouldSuccess_whenUserNotExist() throws Exception {
+
+                /* Act & assert */
+                // Send request, print response, check returned status and primary checking
+                // (status code, content body type...)
+                this.mockMvc.perform(
+                                post(Endpoint.REGISTER)
+                                                .contentType(MediaType.APPLICATION_JSON_VALUE)
+                                                .content(this.objectMapper.writeValueAsString(this.registerRequestDto)))
+                                .andExpect(MockMvcResultMatchers.status().isCreated())
+                                .andExpect(MockMvcResultMatchers.content()
+                                                .string(MessagesEn.ACTIVATION_NEED_ACTIVATION));
+                await()
+                                .atMost(2, SECONDS)
+                                .untilAsserted(() -> {
+                                        MimeMessage[] receivedMessages = greenMail.getReceivedMessages();
+                                        assertThat(receivedMessages.length).isEqualTo(1);
+
+                                        MimeMessage receivedMessage = receivedMessages[0];
+                                        assertThat(GreenMailUtil.getBody(receivedMessage))
+                                                        .contains(EMAIL_SUBJECT_ACTIVATION_CODE);
+                                });
+        }
+
+        @Test
+        @DisplayName("Activate an user with good code")
+        void IT_activation_ShouldSuccess_whenCodeIsCorrect() throws Exception {
+
+                /* Arrange */
+                final String[] messageContainingCode = new String[1];
+
+                this.mockMvc.perform(
+                                post(Endpoint.REGISTER)
+                                                .contentType(MediaType.APPLICATION_JSON_VALUE)
+                                                .content(this.objectMapper.writeValueAsString(this.registerRequestDto)))
+                                .andExpect(MockMvcResultMatchers.status().isCreated());
+                await()
+                                .atMost(2, SECONDS)
+                                .untilAsserted(() -> {
+                                        MimeMessage[] receivedMessages = greenMail.getReceivedMessages();
+                                        assertThat(receivedMessages.length).isEqualTo(1);
+
+                                        MimeMessage receivedMessage = receivedMessages[0];
+
+                                        messageContainingCode[0] = GreenMailUtil.getBody(receivedMessage);
+                                        assertThat(messageContainingCode[0]).contains(EMAIL_SUBJECT_ACTIVATION_CODE);
+                                });
+
+                final String reference = "activation code : ";
+                int startSubtring = messageContainingCode[0].indexOf(reference);
+                int startIndexOfCode = startSubtring + reference.length();
+                int endIndexOfCode = startIndexOfCode + 6;
+                String extractedCode = messageContainingCode[0].substring(startIndexOfCode, endIndexOfCode);
+                Map<String, String> bodyRequest = new HashMap<>();
+                bodyRequest.put("code", extractedCode);
+
+                /* Act & assert */
+                // Send request, print response, check returned status and primary checking
+                // (status code, content body type...)
+                ResultActions response = this.mockMvc.perform(
+                                post(Endpoint.ACTIVATION)
+                                                .contentType(MediaType.APPLICATION_JSON_VALUE)
+                                                .content(this.objectMapper.writeValueAsString(bodyRequest)))
+                                .andExpect(MockMvcResultMatchers.status().isOk());
+
+                String returnedResponse = response.andReturn().getResponse().getContentAsString();
+
+                /* Assert */
+                assertThat(returnedResponse).isEqualTo(MessagesEn.ACTIVATION_OF_USER_OK);
+
+        }
+
+        @Test
+        @DisplayName("Activate an user with bad code")
+        void IT_activation_ShouldFail_whenCodeIsNotCorrect() throws Exception {
+                Map<String, String> bodyRequest = new HashMap<>();
+                bodyRequest.put("code", "BadCode");
+
+                /* Act & assert */
+                this.mockMvc.perform(
+                                post(Endpoint.ACTIVATION)
+                                                .contentType(MediaType.APPLICATION_JSON_VALUE)
+                                                .content(this.objectMapper.writeValueAsString(bodyRequest)))
+                                .andExpect(MockMvcResultMatchers.status().isNotFound());
+        }
+
+        @Test
+        @DisplayName("Sign user with good credentials")
+        void IT_signIn_ShouldSuccess_whenCredentialsAreCorrect() throws Exception {
+                /* Arrange */
+                final String[] messageContainingCode = new String[1];
+                this.mockMvc.perform(
+                                post(Endpoint.REGISTER)
+                                                .contentType(MediaType.APPLICATION_JSON_VALUE)
+                                                .content(this.objectMapper
+                                                                .writeValueAsString(this.registerRequestDto)));
+                await()
+                                .atMost(2, SECONDS)
+                                .untilAsserted(() -> {
+                                        MimeMessage[] receivedMessages = greenMail.getReceivedMessages();
+                                        assertThat(receivedMessages.length).isEqualTo(1);
+
+                                        MimeMessage receivedMessage = receivedMessages[0];
+
+                                        messageContainingCode[0] = GreenMailUtil.getBody(receivedMessage);
+                                        assertThat(messageContainingCode[0]).contains(EMAIL_SUBJECT_ACTIVATION_CODE);
+                                });
+
+                final String reference = "activation code : ";
+                int startSubtring = messageContainingCode[0].indexOf(reference);
+                int startIndexOfCode = startSubtring + reference.length();
+                int endIndexOfCode = startIndexOfCode + 6;
+                String extractedCode = messageContainingCode[0].substring(startIndexOfCode, endIndexOfCode);
+                ActivationRequestDto activationDtoRequest = new ActivationRequestDto(extractedCode);
+                ResultActions response = this.mockMvc.perform(
+                                post(Endpoint.ACTIVATION)
+                                                .contentType(MediaType.APPLICATION_JSON_VALUE)
+                                                .content(this.objectMapper.writeValueAsString(activationDtoRequest)))
+                                .andExpect(MockMvcResultMatchers.status().isOk());
+
+                String returnedResponse = response.andReturn().getResponse().getContentAsString();
+
+                /* Assert */
+                assertThat(returnedResponse).isEqualTo(MessagesEn.ACTIVATION_OF_USER_OK);
+
+                /* Act */
+                // Send request, print response, check returned status and content type
+                SignInRequestDto authenticationDtoRequest = new SignInRequestDto(
+                                this.registerRequestDto.username(), this.registerRequestDto.password());
+
+                response = this.mockMvc.perform(
+                                post(Endpoint.SIGN_IN)
+                                                .contentType(MediaType.APPLICATION_JSON_VALUE)
+                                                .content(this.objectMapper
+                                                                .writeValueAsString(authenticationDtoRequest)))
+                                .andExpect(MockMvcResultMatchers.status().isOk())
+                                .andExpect(content().contentType(MediaType.APPLICATION_JSON));
+
+                returnedResponse = response.andReturn().getResponse().getContentAsString();
+                SignInResponseDto signInDtoresponse = this.objectMapper.readValue(returnedResponse,
+                                SignInResponseDto.class);
+
+                /* Assert */
+                assertThat(signInDtoresponse.bearer().length()).isEqualTo(145);
+                assertThat(signInDtoresponse.refresh().length()).isEqualTo(UUID.randomUUID().toString().length());
+        }
+
+        @Test
+        @DisplayName("Sign user with bad credentials")
+        void IT_signIn_ShouldFail_whenCredentialsAreNotCorrect() throws Exception {
+
+                /* Act & assert */
+                SignInRequestDto authenticationDtoRequest = new SignInRequestDto(
+                                "JamesWebb@triton.com", "fjOM487$?8dd");
+
+                this.mockMvc.perform(
+                                post(Endpoint.SIGN_IN)
+                                                .contentType(MediaType.APPLICATION_JSON_VALUE)
+                                                .content(this.objectMapper
+                                                                .writeValueAsString(authenticationDtoRequest)))
+                                .andExpect(MockMvcResultMatchers.status().isUnauthorized());
+        }
+
+        @Test
+        @DisplayName("Change password of existing user")
+        void IT_changePassword_ShouldSuccess_WhenUsernameExists() throws Exception {
+                /* Arrange */
+                final String[] messageContainingCode = new String[1];
+                this.mockMvc.perform(
+                                post(Endpoint.REGISTER)
+                                                .contentType(MediaType.APPLICATION_JSON_VALUE)
+                                                .content(this.objectMapper
+                                                                .writeValueAsString(this.registerRequestDto)));
+                await()
+                                .atMost(2, SECONDS)
+                                .untilAsserted(() -> {
+                                        MimeMessage[] receivedMessages = greenMail.getReceivedMessages();
+                                        assertThat(receivedMessages.length).isEqualTo(1);
+
+                                        MimeMessage receivedMessage = receivedMessages[0];
+
+                                        messageContainingCode[0] = GreenMailUtil.getBody(receivedMessage);
+                                        assertThat(messageContainingCode[0]).contains(EMAIL_SUBJECT_ACTIVATION_CODE);
+                                });
+
+                final String reference = "activation code : ";
+                int startSubtring = messageContainingCode[0].indexOf(reference);
+                int startIndexOfCode = startSubtring + reference.length();
+                int endIndexOfCode = startIndexOfCode + 6;
+                String extractedCode = messageContainingCode[0].substring(startIndexOfCode, endIndexOfCode);
+                ActivationRequestDto activationDtoRequest = new ActivationRequestDto(extractedCode);
+                ResultActions response = this.mockMvc.perform(
+                                post(Endpoint.ACTIVATION)
+                                                .contentType(MediaType.APPLICATION_JSON_VALUE)
+                                                .content(this.objectMapper.writeValueAsString(activationDtoRequest)))
+                                .andExpect(MockMvcResultMatchers.status().isOk());
+
+                String returnedResponse = response.andReturn().getResponse().getContentAsString();
+
+                /* Assert */
+                assertThat(returnedResponse).isEqualTo(MessagesEn.ACTIVATION_OF_USER_OK);
+
+                /* Act */
+                ChangePasswordRequestDto changePasswordDtoRequest = new ChangePasswordRequestDto(
+                                this.userRef.getUsername());
+
+                this.mockMvc.perform(post(Endpoint.CHANGE_PASSWORD)
+                                .contentType(MediaType.APPLICATION_JSON_VALUE)
+                                .content(this.objectMapper.writeValueAsString(changePasswordDtoRequest)))
+                                .andExpect(MockMvcResultMatchers.status().isOk());
+        }
+
+        @Test
+        @DisplayName("Attempt to change password of a non existing user")
+        void IT_changePassword_ShouldFail_WhenUsernameNotExist() throws Exception {
+                /* Act & assert */
+                ChangePasswordRequestDto changePasswordDtoRequest = new ChangePasswordRequestDto(
+                                "idontexist@neant.com");
+                this.mockMvc.perform(post(Endpoint.CHANGE_PASSWORD)
+                                .contentType(MediaType.APPLICATION_JSON_VALUE)
+                                .content(this.objectMapper.writeValueAsString(changePasswordDtoRequest)))
+                                .andExpect(MockMvcResultMatchers.status().isNotFound());
+        }
+
+        @Test
+        @DisplayName("Attempt to change password with bad formated email")
+        void IT_changePassword_ShouldFail_WhenEmailIsBadFormated() throws Exception {
+                /* Act & assert */
+                ChangePasswordRequestDto changePasswordDtoRequest = new ChangePasswordRequestDto(
+                                "malformedEmail@@malformed.com");
+                this.mockMvc.perform(post(Endpoint.CHANGE_PASSWORD)
+                                .contentType(MediaType.APPLICATION_JSON_VALUE)
+                                .content(this.objectMapper.writeValueAsString(changePasswordDtoRequest)))
+                                .andExpect(MockMvcResultMatchers.status().isNotFound());
+        }
+
+        @Test
+        @DisplayName("set new password of existing user")
+        void IT_newPassword_ShouldSuccess_WhenUserExists() throws Exception {
+                /* Arrange */
+                final String[] messageContainingCode = new String[1];
+                this.mockMvc.perform(
+                                post(Endpoint.REGISTER)
+                                                .contentType(MediaType.APPLICATION_JSON_VALUE)
+                                                .content(this.objectMapper
+                                                                .writeValueAsString(this.registerRequestDto)));
+                await()
+                                .atMost(2, SECONDS)
+                                .untilAsserted(() -> {
+                                        MimeMessage[] receivedMessages = greenMail.getReceivedMessages();
+                                        assertThat(receivedMessages.length).isEqualTo(1);
+
+                                        MimeMessage receivedMessage = receivedMessages[0];
+
+                                        messageContainingCode[0] = GreenMailUtil.getBody(receivedMessage);
+                                        assertThat(messageContainingCode[0]).contains(EMAIL_SUBJECT_ACTIVATION_CODE);
+                                });
+
+                final String reference = "activation code : ";
+                int startSubtring = messageContainingCode[0].indexOf(reference);
+                int startIndexOfCode = startSubtring + reference.length();
+                int endIndexOfCode = startIndexOfCode + 6;
+                String extractedCode = messageContainingCode[0].substring(startIndexOfCode, endIndexOfCode);
+                ActivationRequestDto activationDtoRequest = new ActivationRequestDto(extractedCode);
+                ResultActions response = this.mockMvc.perform(
+                                post(Endpoint.ACTIVATION)
+                                                .contentType(MediaType.APPLICATION_JSON_VALUE)
+                                                .content(this.objectMapper.writeValueAsString(activationDtoRequest)))
+                                .andExpect(MockMvcResultMatchers.status().isOk());
+
+                String returnedResponse = response.andReturn().getResponse().getContentAsString();
+
+                /* Assert */
+                assertThat(returnedResponse).isEqualTo(MessagesEn.ACTIVATION_OF_USER_OK);
+
+                ChangePasswordRequestDto changePasswordDtoRequest = new ChangePasswordRequestDto(
+                                this.registerRequestDto.username());
+
+                this.mockMvc.perform(post(Endpoint.CHANGE_PASSWORD)
+                                .contentType(MediaType.APPLICATION_JSON_VALUE)
+                                .content(this.objectMapper.writeValueAsString(changePasswordDtoRequest)))
+                                .andExpect(MockMvcResultMatchers.status().isOk());
+
+                // activation code recuperation
+                await()
+                                .atMost(2, SECONDS)
+                                .untilAsserted(() -> {
+                                        MimeMessage[] receivedMessages = greenMail.getReceivedMessages();
+                                        assertThat(receivedMessages.length).isEqualTo(2);
+
+                                        MimeMessage receivedMessage = receivedMessages[0];
+
+                                        messageContainingCode[0] = GreenMailUtil.getBody(receivedMessage);
+                                        assertThat(messageContainingCode[0]).contains(EMAIL_SUBJECT_ACTIVATION_CODE);
+                                });
+
+                String codeStr = "activation code : ";
+                startSubtring = messageContainingCode[0].indexOf(codeStr);
+                startIndexOfCode = startSubtring + reference.length();
+                endIndexOfCode = startIndexOfCode + 6;
+                extractedCode = messageContainingCode[0].substring(startIndexOfCode, endIndexOfCode);
+
+                /* Act & assert */
+                NewPasswordRequestDto passwordDtoRequest = new NewPasswordRequestDto(
+                                this.registerRequestDto.username(),
+                                extractedCode,
+                                "klfbeUB22@@@?sdjfJJ");
+
+                this.mockMvc.perform(post(Endpoint.NEW_PASSWORD)
+                                .contentType(MediaType.APPLICATION_JSON_VALUE)
+                                .content(this.objectMapper.writeValueAsString(passwordDtoRequest)))
+                                .andExpect(MockMvcResultMatchers.status().isOk())
+                                .andExpect(MockMvcResultMatchers.content().string(MessagesEn.NEW_PASSWORD_SUCCESS));
+        }
+
+        @Test
+        @DisplayName("set new password of non existing user")
+        void IT_newPassword_ShouldFail_WhenUserNotExists() throws Exception {
+                /* Act & assert */
+                NewPasswordRequestDto newPasswordDto = new NewPasswordRequestDto(
+                                this.validationRef.getUser().getEmail(),
+                                this.validationRef.getCode(),
+                                this.validationRef.getUser().getPassword());
+
+                // Act
+                this.mockMvc.perform(post(Endpoint.NEW_PASSWORD)
+                                .contentType(MediaType.APPLICATION_JSON_VALUE)
+                                .content(this.objectMapper.writeValueAsString(newPasswordDto)))
+                                .andExpect(MockMvcResultMatchers.status().isNotFound());
+        }
+
+        @Test
+        @DisplayName("set new password with non-referenced validation by code")
+        void IT_newPassword_ShouldFail_WhenValidationNotExists() throws Exception {
+                /* Arrange */
+                final String[] messageContainingCode = new String[1];
+                this.mockMvc.perform(
+                                post(Endpoint.REGISTER)
+                                                .contentType(MediaType.APPLICATION_JSON_VALUE)
+                                                .content(this.objectMapper
+                                                                .writeValueAsString(this.registerRequestDto)));
+                await()
+                                .atMost(2, SECONDS)
+                                .untilAsserted(() -> {
+                                        MimeMessage[] receivedMessages = greenMail.getReceivedMessages();
+                                        assertThat(receivedMessages.length).isEqualTo(1);
+
+                                        MimeMessage receivedMessage = receivedMessages[0];
+
+                                        messageContainingCode[0] = GreenMailUtil.getBody(receivedMessage);
+                                        assertThat(messageContainingCode[0]).contains(EMAIL_SUBJECT_ACTIVATION_CODE);
+                                });
+
+                final String reference = "activation code : ";
+                int startSubtring = messageContainingCode[0].indexOf(reference);
+                int startIndexOfCode = startSubtring + reference.length();
+                int endIndexOfCode = startIndexOfCode + 6;
+                String extractedCode = messageContainingCode[0].substring(startIndexOfCode, endIndexOfCode);
+                ActivationRequestDto activationDtoRequest = new ActivationRequestDto(extractedCode);
+                ResultActions response = this.mockMvc.perform(
+                                post(Endpoint.ACTIVATION)
+                                                .contentType(MediaType.APPLICATION_JSON_VALUE)
+                                                .content(this.objectMapper.writeValueAsString(activationDtoRequest)))
+                                .andExpect(MockMvcResultMatchers.status().isOk());
+
+                String returnedResponse = response.andReturn().getResponse().getContentAsString();
+
+                /* Assert */
+                assertThat(returnedResponse).isEqualTo(MessagesEn.ACTIVATION_OF_USER_OK);
+
+                ChangePasswordRequestDto changePasswordDtoRequest = new ChangePasswordRequestDto(
+                                this.registerRequestDto.username());
+
+                this.mockMvc.perform(post(Endpoint.CHANGE_PASSWORD)
+                                .contentType(MediaType.APPLICATION_JSON_VALUE)
+                                .content(this.objectMapper.writeValueAsString(changePasswordDtoRequest)))
+                                .andExpect(MockMvcResultMatchers.status().isOk());
+
+                // activation code recuperation
+                await()
+                                .atMost(2, SECONDS)
+                                .untilAsserted(() -> {
+                                        MimeMessage[] receivedMessages = greenMail.getReceivedMessages();
+                                        assertThat(receivedMessages.length).isEqualTo(2);
+
+                                        MimeMessage receivedMessage = receivedMessages[0];
+
+                                        messageContainingCode[0] = GreenMailUtil.getBody(receivedMessage);
+                                        assertThat(messageContainingCode[0]).contains(EMAIL_SUBJECT_ACTIVATION_CODE);
+                                });
+
+                String codeStr = "activation code : ";
+                startSubtring = messageContainingCode[0].indexOf(codeStr);
+                startIndexOfCode = startSubtring + reference.length();
+                endIndexOfCode = startIndexOfCode + 6;
+                extractedCode = messageContainingCode[0].substring(startIndexOfCode, endIndexOfCode);
+
+                /* Act & assert */
+                NewPasswordRequestDto newPasswordDto = new NewPasswordRequestDto(
+                                this.registerRequestDto.username(),
+                                "1111111",
+                                "klfbeUB22@@@?sdjfJJ");
+
+                this.mockMvc.perform(post(Endpoint.NEW_PASSWORD)
+                                .contentType(MediaType.APPLICATION_JSON_VALUE)
+                                .content(this.objectMapper.writeValueAsString(newPasswordDto)))
+                                .andExpect(MockMvcResultMatchers.status().isNotFound());
+        }
+
+        @Test
+        @DisplayName("set new password with not enough secured password")
+        void IT_newPassword_ShouldFail_WhenPasswordIsNotEnoughSecured() throws Exception {
+
+                /* Arrange */
+                final String[] messageContainingCode = new String[1];
+                this.mockMvc.perform(
+                                post(Endpoint.REGISTER)
+                                                .contentType(MediaType.APPLICATION_JSON_VALUE)
+                                                .content(this.objectMapper
+                                                                .writeValueAsString(this.registerRequestDto)));
+                await()
+                                .atMost(2, SECONDS)
+                                .untilAsserted(() -> {
+                                        MimeMessage[] receivedMessages = greenMail.getReceivedMessages();
+                                        assertThat(receivedMessages.length).isEqualTo(1);
+
+                                        MimeMessage receivedMessage = receivedMessages[0];
+
+                                        messageContainingCode[0] = GreenMailUtil.getBody(receivedMessage);
+                                        assertThat(messageContainingCode[0]).contains(EMAIL_SUBJECT_ACTIVATION_CODE);
+                                });
+
+                final String reference = "activation code : ";
+                int startSubtring = messageContainingCode[0].indexOf(reference);
+                int startIndexOfCode = startSubtring + reference.length();
+                int endIndexOfCode = startIndexOfCode + 6;
+                String extractedCode = messageContainingCode[0].substring(startIndexOfCode, endIndexOfCode);
+                ActivationRequestDto activationDtoRequest = new ActivationRequestDto(extractedCode);
+                ResultActions response = this.mockMvc.perform(
+                                post(Endpoint.ACTIVATION)
+                                                .contentType(MediaType.APPLICATION_JSON_VALUE)
+                                                .content(this.objectMapper.writeValueAsString(activationDtoRequest)))
+                                .andExpect(MockMvcResultMatchers.status().isOk());
+
+                String returnedResponse = response.andReturn().getResponse().getContentAsString();
+
+                /* Assert */
+                assertThat(returnedResponse).isEqualTo(MessagesEn.ACTIVATION_OF_USER_OK);
+
+                ChangePasswordRequestDto changePasswordDtoRequest = new ChangePasswordRequestDto(
+                                this.registerRequestDto.username());
+
+                this.mockMvc.perform(post(Endpoint.CHANGE_PASSWORD)
+                                .contentType(MediaType.APPLICATION_JSON_VALUE)
+                                .content(this.objectMapper.writeValueAsString(changePasswordDtoRequest)))
+                                .andExpect(MockMvcResultMatchers.status().isOk());
+
+                // activation code recuperation
+                await()
+                                .atMost(2, SECONDS)
+                                .untilAsserted(() -> {
+                                        MimeMessage[] receivedMessages = greenMail.getReceivedMessages();
+                                        assertThat(receivedMessages.length).isEqualTo(2);
+
+                                        MimeMessage receivedMessage = receivedMessages[0];
+
+                                        messageContainingCode[0] = GreenMailUtil.getBody(receivedMessage);
+                                        assertThat(messageContainingCode[0]).contains(EMAIL_SUBJECT_ACTIVATION_CODE);
+                                });
+
+                String codeStr = "activation code : ";
+                startSubtring = messageContainingCode[0].indexOf(codeStr);
+                startIndexOfCode = startSubtring + reference.length();
+                endIndexOfCode = startIndexOfCode + 6;
+                extractedCode = messageContainingCode[0].substring(startIndexOfCode, endIndexOfCode);
+
+                /* Act & assert */
+                NewPasswordRequestDto newPasswordDto = new NewPasswordRequestDto(
+                                this.registerRequestDto.username(),
+                                extractedCode,
+                                "1234");
+
+                this.mockMvc.perform(post(Endpoint.NEW_PASSWORD)
+                                .contentType(MediaType.APPLICATION_JSON_VALUE)
+                                .content(this.objectMapper.writeValueAsString(newPasswordDto)))
+                                .andExpect(MockMvcResultMatchers.status().isBadRequest());
+        }
+
+        @Test
+        @DisplayName("Refresh connection with correct refresh token value")
+        void IT_refreshConnectionWithRefreshTokenValue_ShouldSuccess_WhenRefreshTokenValueIsCorrect() throws Exception {
+                /* Arrange */
+                final String[] messageContainingCode = new String[1];
+                this.mockMvc.perform(
+                                post(Endpoint.REGISTER)
+                                                .contentType(MediaType.APPLICATION_JSON_VALUE)
+                                                .content(this.objectMapper
+                                                                .writeValueAsString(this.registerRequestDto)));
+                await()
+                                .atMost(2, SECONDS)
+                                .untilAsserted(() -> {
+                                        MimeMessage[] receivedMessages = greenMail.getReceivedMessages();
+                                        assertThat(receivedMessages.length).isEqualTo(1);
+
+                                        MimeMessage receivedMessage = receivedMessages[0];
+
+                                        messageContainingCode[0] = GreenMailUtil.getBody(receivedMessage);
+                                        assertThat(messageContainingCode[0]).contains(EMAIL_SUBJECT_ACTIVATION_CODE);
+                                });
+
+                final String reference = "activation code : ";
+                int startSubtring = messageContainingCode[0].indexOf(reference);
+                int startIndexOfCode = startSubtring + reference.length();
+                int endIndexOfCode = startIndexOfCode + 6;
+                String extractedCode = messageContainingCode[0].substring(startIndexOfCode, endIndexOfCode);
+                ActivationRequestDto activationDtoRequest = new ActivationRequestDto(extractedCode);
+                ResultActions response = this.mockMvc.perform(
+                                post(Endpoint.ACTIVATION)
+                                                .contentType(MediaType.APPLICATION_JSON_VALUE)
+                                                .content(this.objectMapper.writeValueAsString(activationDtoRequest)))
+                                .andExpect(MockMvcResultMatchers.status().isOk());
+
+                String returnedResponse = response.andReturn().getResponse().getContentAsString();
+
+                assertThat(returnedResponse).isEqualTo(MessagesEn.ACTIVATION_OF_USER_OK);
+
+                SignInRequestDto authenticationDtoRequest = new SignInRequestDto(
+                                this.registerRequestDto.username(), this.registerRequestDto.password());
+
+                response = this.mockMvc.perform(
+                                post(Endpoint.SIGN_IN)
+                                                .contentType(MediaType.APPLICATION_JSON_VALUE)
+                                                .content(this.objectMapper
+                                                                .writeValueAsString(authenticationDtoRequest)))
+                                .andExpect(MockMvcResultMatchers.status().isOk())
+                                .andExpect(content().contentType(MediaType.APPLICATION_JSON));
+
+                returnedResponse = response.andReturn().getResponse().getContentAsString();
+                SignInResponseDto signInDtoresponse = this.objectMapper.readValue(returnedResponse,
+                                SignInResponseDto.class);
+                assertThat(signInDtoresponse.bearer().length()).isEqualTo(145);
+                assertThat(signInDtoresponse.refresh().length()).isEqualTo(UUID.randomUUID().toString().length());
+
+                /* Act */
+                RefreshRequestDto refreshConnectionDto = new RefreshRequestDto(
+                                signInDtoresponse.refresh());
+                MvcResult result = this.mockMvc.perform(post(Endpoint.REFRESH_TOKEN)
+                                .contentType(MediaType.APPLICATION_JSON_VALUE)
+                                .content(this.objectMapper.writeValueAsString(refreshConnectionDto)))
+                                .andExpect(MockMvcResultMatchers.status().isCreated())
+                                .andReturn();
+
+                returnedResponse = result.getResponse().getContentAsString();
+                signInDtoresponse = this.objectMapper.readValue(returnedResponse, SignInResponseDto.class);
+
+                /* Assert */
+                assertThat(signInDtoresponse.bearer().length()).isEqualTo(145);
+                assertThat(signInDtoresponse.refresh().length()).isEqualTo(randomUUID().toString().length());
+        }
+
+        @Test
+        @DisplayName("Refresh connection with bad refresh token value")
+        void IT_refreshConnectionWithRefreshTokenValue_ShouldFail_WhenRefreshTokenValueIsNotCorrect() throws Exception {
+                /* Act & assert */
+                RefreshRequestDto refreshConnectionDtoRequest = new RefreshRequestDto("badValue");
+                this.mockMvc.perform(post(Endpoint.REFRESH_TOKEN)
+                                .contentType(MediaType.APPLICATION_JSON_VALUE)
+                                .content(this.objectMapper.writeValueAsString(refreshConnectionDtoRequest)))
+                                .andExpect(MockMvcResultMatchers.status().isBadRequest());
+        }
+
+        @Test
+        @DisplayName("Refresh connection with expired refresh token value")
+        void IT_refreshConnectionWithRefreshTokenValue_ShouldFail_WhenRefreshTokenValueIsExpired() throws Exception {
+                /* Act & assert */
+                this.jwtService.setValidityTokenTimeInSeconds(1);
+                this.jwtService.setAdditionalTimeForRefreshTokenInSeconds(1);
+                SignInResponseDto expiredCredentials = this.connectAndReturnAllCredentials();
+                RefreshRequestDto refreshRequestDto = new RefreshRequestDto(expiredCredentials.refresh());
                 
-//                 TimeUnit.SECONDS.sleep(2);
+                TimeUnit.SECONDS.sleep(2);
                 
-//                 this.mockMvc.perform(post(Endpoint.REFRESH_TOKEN)
-//                                 .contentType(MediaType.APPLICATION_JSON_VALUE)
-//                                 .content(this.objectMapper.writeValueAsString(refreshRequestDto)))
-//                                 .andExpect(MockMvcResultMatchers.status().isBadRequest())
-//                                 .andExpect(result -> assertThat(result.getResolvedException()).isInstanceOf(InoteExpiredRefreshTokenException.class));
-//         }
+                this.mockMvc.perform(post(Endpoint.REFRESH_TOKEN)
+                                .contentType(MediaType.APPLICATION_JSON_VALUE)
+                                .content(this.objectMapper.writeValueAsString(refreshRequestDto)))
+                                .andExpect(MockMvcResultMatchers.status().isBadRequest())
+                                .andExpect(result -> assertThat(result.getResolvedException()).isInstanceOf(InoteExpiredRefreshTokenException.class));
+        }
 
-//         @Test
-//         @DisplayName("Refresh connection in real time conditions, normal use case")
-//         void IT_refreshConnectionWithRefreshTokenValue_shouldSuccess_inRealTimeConditons()
-//                         throws JsonProcessingException, Exception {
-//                 /* Arrange */
-//                 final String[] messageContainingCode = new String[1];
-//                 this.mockMvc.perform(
-//                                 post(Endpoint.REGISTER)
-//                                                 .contentType(MediaType.APPLICATION_JSON_VALUE)
-//                                                 .content(this.objectMapper
-//                                                                 .writeValueAsString(this.registerRequestDto)));
-//                 await()
-//                                 .atMost(2, SECONDS)
-//                                 .untilAsserted(() -> {
-//                                         MimeMessage[] receivedMessages = greenMail.getReceivedMessages();
-//                                         assertThat(receivedMessages.length).isEqualTo(1);
+        @Test
+        @DisplayName("Refresh connection in real time conditions, normal use case")
+        void IT_refreshConnectionWithRefreshTokenValue_shouldSuccess_inRealTimeConditons()
+                        throws JsonProcessingException, Exception {
+                /* Arrange */
+                final String[] messageContainingCode = new String[1];
+                this.mockMvc.perform(
+                                post(Endpoint.REGISTER)
+                                                .contentType(MediaType.APPLICATION_JSON_VALUE)
+                                                .content(this.objectMapper
+                                                                .writeValueAsString(this.registerRequestDto)));
+                await()
+                                .atMost(2, SECONDS)
+                                .untilAsserted(() -> {
+                                        MimeMessage[] receivedMessages = greenMail.getReceivedMessages();
+                                        assertThat(receivedMessages.length).isEqualTo(1);
 
-//                                         MimeMessage receivedMessage = receivedMessages[0];
+                                        MimeMessage receivedMessage = receivedMessages[0];
 
-//                                         messageContainingCode[0] = GreenMailUtil.getBody(receivedMessage);
-//                                         assertThat(messageContainingCode[0]).contains(EMAIL_SUBJECT_ACTIVATION_CODE);
-//                                 });
+                                        messageContainingCode[0] = GreenMailUtil.getBody(receivedMessage);
+                                        assertThat(messageContainingCode[0]).contains(EMAIL_SUBJECT_ACTIVATION_CODE);
+                                });
 
-//                 final String reference = "activation code : ";
-//                 int startSubtring = messageContainingCode[0].indexOf(reference);
-//                 int startIndexOfCode = startSubtring + reference.length();
-//                 int endIndexOfCode = startIndexOfCode + 6;
-//                 String extractedCode = messageContainingCode[0].substring(startIndexOfCode, endIndexOfCode);
-//                 ActivationRequestDto activationDtoRequest = new ActivationRequestDto(extractedCode);
-//                 ResultActions response = this.mockMvc.perform(
-//                                 post(Endpoint.ACTIVATION)
-//                                                 .contentType(MediaType.APPLICATION_JSON_VALUE)
-//                                                 .content(this.objectMapper.writeValueAsString(activationDtoRequest)))
-//                                 .andExpect(MockMvcResultMatchers.status().isOk());
+                final String reference = "activation code : ";
+                int startSubtring = messageContainingCode[0].indexOf(reference);
+                int startIndexOfCode = startSubtring + reference.length();
+                int endIndexOfCode = startIndexOfCode + 6;
+                String extractedCode = messageContainingCode[0].substring(startIndexOfCode, endIndexOfCode);
+                ActivationRequestDto activationDtoRequest = new ActivationRequestDto(extractedCode);
+                ResultActions response = this.mockMvc.perform(
+                                post(Endpoint.ACTIVATION)
+                                                .contentType(MediaType.APPLICATION_JSON_VALUE)
+                                                .content(this.objectMapper.writeValueAsString(activationDtoRequest)))
+                                .andExpect(MockMvcResultMatchers.status().isOk());
 
-//                 String returnedResponse = response.andReturn().getResponse().getContentAsString();
+                String returnedResponse = response.andReturn().getResponse().getContentAsString();
 
-//                 assertThat(returnedResponse).isEqualTo(MessagesEn.ACTIVATION_OF_USER_OK);
+                assertThat(returnedResponse).isEqualTo(MessagesEn.ACTIVATION_OF_USER_OK);
 
-//                 SignInRequestDto authenticationDtoRequest = new SignInRequestDto(
-//                                 this.registerRequestDto.username(), this.registerRequestDto.password());
+                SignInRequestDto authenticationDtoRequest = new SignInRequestDto(
+                                this.registerRequestDto.username(), this.registerRequestDto.password());
 
-//                 response = this.mockMvc.perform(
-//                                 post(Endpoint.SIGN_IN)
-//                                                 .contentType(MediaType.APPLICATION_JSON_VALUE)
-//                                                 .content(this.objectMapper
-//                                                                 .writeValueAsString(authenticationDtoRequest)))
-//                                 .andExpect(MockMvcResultMatchers.status().isOk())
-//                                 .andExpect(content().contentType(MediaType.APPLICATION_JSON));
+                response = this.mockMvc.perform(
+                                post(Endpoint.SIGN_IN)
+                                                .contentType(MediaType.APPLICATION_JSON_VALUE)
+                                                .content(this.objectMapper
+                                                                .writeValueAsString(authenticationDtoRequest)))
+                                .andExpect(MockMvcResultMatchers.status().isOk())
+                                .andExpect(content().contentType(MediaType.APPLICATION_JSON));
 
-//                 returnedResponse = response.andReturn().getResponse().getContentAsString();
-//                 SignInResponseDto signInDtoresponse = this.objectMapper.readValue(returnedResponse,
-//                                 SignInResponseDto.class);
-//                 assertThat(signInDtoresponse.bearer().length()).isEqualTo(145);
-//                 assertThat(signInDtoresponse.refresh().length()).isEqualTo(UUID.randomUUID().toString().length());
+                returnedResponse = response.andReturn().getResponse().getContentAsString();
+                SignInResponseDto signInDtoresponse = this.objectMapper.readValue(returnedResponse,
+                                SignInResponseDto.class);
+                assertThat(signInDtoresponse.bearer().length()).isEqualTo(145);
+                assertThat(signInDtoresponse.refresh().length()).isEqualTo(UUID.randomUUID().toString().length());
 
-//                 /* Act & assert */
-//                 // 1- We await expiration of token and make sure that application is protected
-//                 TimeUnit.SECONDS.sleep(this.jwtService.getValidityTokenTimeInSeconds()+2);
-//                 this.mockMvc.perform(post(Endpoint.SIGN_OUT).header("Authorization", "bearer "
-//                                 + signInDtoresponse.bearer()))
-//                                 .andExpect(MockMvcResultMatchers.status().isUnauthorized());
+                /* Act & assert */
+                // 1- We await expiration of token and make sure that application is protected
+                TimeUnit.SECONDS.sleep(this.jwtService.getValidityTokenTimeInSeconds()+2);
+                this.mockMvc.perform(post(Endpoint.SIGN_OUT).header("Authorization", "bearer "
+                                + signInDtoresponse.bearer()))
+                                .andExpect(MockMvcResultMatchers.status().isUnauthorized());
 
-//                 // 2- Send of refresh-token and recuperation of news Jwt & refresh-token
-//                 response = this.mockMvc.perform(
-//                                 post(Endpoint.REFRESH_TOKEN)
-//                                                 .contentType(MediaType.APPLICATION_JSON_VALUE)
-//                                                 .content(this.objectMapper.writeValueAsString(
-//                                                                 new RefreshRequestDto(signInDtoresponse.refresh()))))
-//                                 .andExpect(MockMvcResultMatchers.status().isCreated());
+                // 2- Send of refresh-token and recuperation of news Jwt & refresh-token
+                response = this.mockMvc.perform(
+                                post(Endpoint.REFRESH_TOKEN)
+                                                .contentType(MediaType.APPLICATION_JSON_VALUE)
+                                                .content(this.objectMapper.writeValueAsString(
+                                                                new RefreshRequestDto(signInDtoresponse.refresh()))))
+                                .andExpect(MockMvcResultMatchers.status().isCreated());
 
-//                 returnedResponse = response.andReturn().getResponse().getContentAsString();
-//                 signInDtoresponse = this.objectMapper.readValue(returnedResponse,
-//                                 SignInResponseDto.class);
-//                 assertThat(signInDtoresponse.bearer().length()).isEqualTo(145);
-//                 assertThat(signInDtoresponse.refresh().length()).isEqualTo(UUID.randomUUID().toString().length());
+                returnedResponse = response.andReturn().getResponse().getContentAsString();
+                signInDtoresponse = this.objectMapper.readValue(returnedResponse,
+                                SignInResponseDto.class);
+                assertThat(signInDtoresponse.bearer().length()).isEqualTo(145);
+                assertThat(signInDtoresponse.refresh().length()).isEqualTo(UUID.randomUUID().toString().length());
 
-//                 // // 4- We make sure that new token is functionnal
-//                 this.mockMvc.perform(post(Endpoint.SIGN_OUT).header("Authorization", "bearer "
-//                                 + signInDtoresponse.bearer()))
-//                                 .andExpect(MockMvcResultMatchers.status().isOk())
-//                                 .andExpect(MockMvcResultMatchers.content().string(MessagesEn.USER_SIGNOUT_SUCCESS));
-//         }
+                // // 4- We make sure that new token is functionnal
+                this.mockMvc.perform(post(Endpoint.SIGN_OUT).header("Authorization", "bearer "
+                                + signInDtoresponse.bearer()))
+                                .andExpect(MockMvcResultMatchers.status().isOk())
+                                .andExpect(MockMvcResultMatchers.content().string(MessagesEn.USER_SIGNOUT_SUCCESS));
+        }
 
-//         @Test
-//         @DisplayName("Signout user effectivly connected")
-//         void IT_signOut_ShouldSuccess_whenUserIsConnected() throws Exception {
-//                 /* Arrange */
-//                 final String[] messageContainingCode = new String[1];
-//                 this.mockMvc.perform(
-//                                 post(Endpoint.REGISTER)
-//                                                 .contentType(MediaType.APPLICATION_JSON_VALUE)
-//                                                 .content(this.objectMapper
-//                                                                 .writeValueAsString(this.registerRequestDto)));
-//                 await()
-//                                 .atMost(2, SECONDS)
-//                                 .untilAsserted(() -> {
-//                                         MimeMessage[] receivedMessages = greenMail.getReceivedMessages();
-//                                         assertThat(receivedMessages.length).isEqualTo(1);
+        @Test
+        @DisplayName("Signout user effectivly connected")
+        void IT_signOut_ShouldSuccess_whenUserIsConnected() throws Exception {
+                /* Arrange */
+                final String[] messageContainingCode = new String[1];
+                this.mockMvc.perform(
+                                post(Endpoint.REGISTER)
+                                                .contentType(MediaType.APPLICATION_JSON_VALUE)
+                                                .content(this.objectMapper
+                                                                .writeValueAsString(this.registerRequestDto)));
+                await()
+                                .atMost(2, SECONDS)
+                                .untilAsserted(() -> {
+                                        MimeMessage[] receivedMessages = greenMail.getReceivedMessages();
+                                        assertThat(receivedMessages.length).isEqualTo(1);
 
-//                                         MimeMessage receivedMessage = receivedMessages[0];
+                                        MimeMessage receivedMessage = receivedMessages[0];
 
-//                                         messageContainingCode[0] = GreenMailUtil.getBody(receivedMessage);
-//                                         assertThat(messageContainingCode[0]).contains(EMAIL_SUBJECT_ACTIVATION_CODE);
-//                                 });
+                                        messageContainingCode[0] = GreenMailUtil.getBody(receivedMessage);
+                                        assertThat(messageContainingCode[0]).contains(EMAIL_SUBJECT_ACTIVATION_CODE);
+                                });
 
-//                 final String reference = "activation code : ";
-//                 int startSubtring = messageContainingCode[0].indexOf(reference);
-//                 int startIndexOfCode = startSubtring + reference.length();
-//                 int endIndexOfCode = startIndexOfCode + 6;
-//                 String extractedCode = messageContainingCode[0].substring(startIndexOfCode, endIndexOfCode);
-//                 ActivationRequestDto activationDtoRequest = new ActivationRequestDto(extractedCode);
-//                 ResultActions response = this.mockMvc.perform(
-//                                 post(Endpoint.ACTIVATION)
-//                                                 .contentType(MediaType.APPLICATION_JSON_VALUE)
-//                                                 .content(this.objectMapper.writeValueAsString(activationDtoRequest)))
-//                                 .andExpect(MockMvcResultMatchers.status().isOk());
+                final String reference = "activation code : ";
+                int startSubtring = messageContainingCode[0].indexOf(reference);
+                int startIndexOfCode = startSubtring + reference.length();
+                int endIndexOfCode = startIndexOfCode + 6;
+                String extractedCode = messageContainingCode[0].substring(startIndexOfCode, endIndexOfCode);
+                ActivationRequestDto activationDtoRequest = new ActivationRequestDto(extractedCode);
+                ResultActions response = this.mockMvc.perform(
+                                post(Endpoint.ACTIVATION)
+                                                .contentType(MediaType.APPLICATION_JSON_VALUE)
+                                                .content(this.objectMapper.writeValueAsString(activationDtoRequest)))
+                                .andExpect(MockMvcResultMatchers.status().isOk());
 
-//                 String returnedResponse = response.andReturn().getResponse().getContentAsString();
+                String returnedResponse = response.andReturn().getResponse().getContentAsString();
 
-//                 assertThat(returnedResponse).isEqualTo(MessagesEn.ACTIVATION_OF_USER_OK);
+                assertThat(returnedResponse).isEqualTo(MessagesEn.ACTIVATION_OF_USER_OK);
 
-//                 SignInRequestDto authenticationDtoRequest = new SignInRequestDto(
-//                                 this.registerRequestDto.username(), this.registerRequestDto.password());
+                SignInRequestDto authenticationDtoRequest = new SignInRequestDto(
+                                this.registerRequestDto.username(), this.registerRequestDto.password());
 
-//                 response = this.mockMvc.perform(
-//                                 post(Endpoint.SIGN_IN)
-//                                                 .contentType(MediaType.APPLICATION_JSON_VALUE)
-//                                                 .content(this.objectMapper
-//                                                                 .writeValueAsString(authenticationDtoRequest)))
-//                                 .andExpect(MockMvcResultMatchers.status().isOk())
-//                                 .andExpect(content().contentType(MediaType.APPLICATION_JSON));
+                response = this.mockMvc.perform(
+                                post(Endpoint.SIGN_IN)
+                                                .contentType(MediaType.APPLICATION_JSON_VALUE)
+                                                .content(this.objectMapper
+                                                                .writeValueAsString(authenticationDtoRequest)))
+                                .andExpect(MockMvcResultMatchers.status().isOk())
+                                .andExpect(content().contentType(MediaType.APPLICATION_JSON));
 
-//                 returnedResponse = response.andReturn().getResponse().getContentAsString();
-//                 SignInResponseDto signInDtoresponse = this.objectMapper.readValue(returnedResponse,
-//                                 SignInResponseDto.class);
-//                 assertThat(signInDtoresponse.bearer().length()).isEqualTo(145);
-//                 assertThat(signInDtoresponse.refresh().length()).isEqualTo(UUID.randomUUID().toString().length());
+                returnedResponse = response.andReturn().getResponse().getContentAsString();
+                SignInResponseDto signInDtoresponse = this.objectMapper.readValue(returnedResponse,
+                                SignInResponseDto.class);
+                assertThat(signInDtoresponse.bearer().length()).isEqualTo(145);
+                assertThat(signInDtoresponse.refresh().length()).isEqualTo(UUID.randomUUID().toString().length());
 
-//                 /* Act & assert */
-//                 this.mockMvc.perform(
-//                                 post(Endpoint.SIGN_OUT).header(AUTHORIZATION,
-//                                                 BEARER + " " + signInDtoresponse.bearer()))
-//                                 .andExpect(MockMvcResultMatchers.status().isOk());
-//         }
+                /* Act & assert */
+                this.mockMvc.perform(
+                                post(Endpoint.SIGN_OUT).header(AUTHORIZATION,
+                                                BEARER + " " + signInDtoresponse.bearer()))
+                                .andExpect(MockMvcResultMatchers.status().isOk());
+        }
 
-//         @Test
-//         @DisplayName("Signout user with bad Bearer")
-//         void IT_signOut_ShouldUnauthorized_whenBearerIdBad() throws Exception {
-//                 /* Act & assert */
-//                 this.mockMvc.perform(post(Endpoint.SIGN_OUT).header("Authorization", "bearer "
-//                                 + "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJzYW5nb2t1QGthbWUtaG91c2UuY29tIiwibmFtZSI6InNhbmdva3UiLCJleHAiOjE3MTI3NDYzOTJ9.QioVM3zc4yrFaZXadV0DQ5UiW_UrlcX83wm_cgKi0Dw"))
-//                                 .andExpect(MockMvcResultMatchers.status().isUnauthorized())
-//                                 .andExpect(jsonPath("$.detail").value(MessagesEn.USER_NOT_AUTHENTICATED));
-//         }
+        @Test
+        @DisplayName("Signout user with bad Bearer")
+        void IT_signOut_ShouldUnauthorized_whenBearerIdBad() throws Exception {
+                /* Act & assert */
+                this.mockMvc.perform(post(Endpoint.SIGN_OUT).header("Authorization", "bearer "
+                                + "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJzYW5nb2t1QGthbWUtaG91c2UuY29tIiwibmFtZSI6InNhbmdva3UiLCJleHAiOjE3MTI3NDYzOTJ9.QioVM3zc4yrFaZXadV0DQ5UiW_UrlcX83wm_cgKi0Dw"))
+                                .andExpect(MockMvcResultMatchers.status().isUnauthorized())
+                                .andExpect(jsonPath("$.detail").value(MessagesEn.USER_NOT_AUTHENTICATED));
+        }
 
-//         @Test
-//         @DisplayName("Register an existing user in database")
-//         void IT_register_shouldFail_whenUserExist() throws Exception {
-//                 /* Arrange */
-//                 assertThatCode(() -> {
-//                         Role role = this.roleRepository.findByName(RoleEnum.USER)
-//                                         .orElseThrow(InoteUserException::new);
-//                         this.userRef.setRole(role);
-//                         this.userRepository.save(this.userRef);
-//                 }).doesNotThrowAnyException();
+        @Test
+        @DisplayName("Register an existing user in database")
+        void IT_register_shouldFail_whenUserExist() throws Exception {
+                /* Arrange */
+                assertThatCode(() -> {
+                        Role role = this.roleRepository.findByName(RoleEnum.USER)
+                                        .orElseThrow(InoteUserException::new);
+                        this.userRef.setRole(role);
+                        this.userRepository.save(this.userRef);
+                }).doesNotThrowAnyException();
 
-//                 /* Act & assert */
-//                 // Send request, print response, check returned status and primary checking
-//                 // (status code, content body type...)
-//                 this.mockMvc.perform(
-//                                 post(Endpoint.REGISTER)
-//                                                 .contentType(MediaType.APPLICATION_JSON_VALUE)
-//                                                 .content(this.objectMapper.writeValueAsString(this.registerRequestDto)))
-//                                 .andExpect(MockMvcResultMatchers.status().isNotAcceptable());
-//         }
+                /* Act & assert */
+                // Send request, print response, check returned status and primary checking
+                // (status code, content body type...)
+                this.mockMvc.perform(
+                                post(Endpoint.REGISTER)
+                                                .contentType(MediaType.APPLICATION_JSON_VALUE)
+                                                .content(this.objectMapper.writeValueAsString(this.registerRequestDto)))
+                                .andExpect(MockMvcResultMatchers.status().isNotAcceptable());
+        }
 
-//         @Test
-//         @DisplayName("Get the current user when he is connected")
-//         void IT_getCurrentUser_shouldSuccess_whenUserIsConnected() throws JsonProcessingException, Exception {
+        @Test
+        @DisplayName("Get the current user when he is connected")
+        void IT_getCurrentUser_shouldSuccess_whenUserIsConnected() throws JsonProcessingException, Exception {
 
-//                 /* Arrange */
-//                 SignInResponseDto signInResponseDto = this.connectAndReturnAllCredentials();
+                /* Arrange */
+                SignInResponseDto signInResponseDto = this.connectAndReturnAllCredentials();
 
-//                 /* Act & assert */
-//                 ResultActions response = this.mockMvc.perform(
-//                                 MockMvcRequestBuilders.get(Endpoint.GET_CURRENT_USER)
-//                                                 .header("Authorization", BEARER + " " + signInResponseDto.bearer())
-//                                                 .accept(MediaType.APPLICATION_JSON))
-//                                 .andExpect(MockMvcResultMatchers.status().isOk());
-//                 String returnedResponse = response.andReturn().getResponse().getContentAsString();
-//                 ObjectMapper mapper = new ObjectMapper();
-//                 PublicUserRequestDto currentUser = mapper.readValue(returnedResponse, PublicUserRequestDto.class);
+                /* Act & assert */
+                ResultActions response = this.mockMvc.perform(
+                                MockMvcRequestBuilders.get(Endpoint.GET_CURRENT_USER)
+                                                .header("Authorization", BEARER + " " + signInResponseDto.bearer())
+                                                .accept(MediaType.APPLICATION_JSON))
+                                .andExpect(MockMvcResultMatchers.status().isOk());
+                String returnedResponse = response.andReturn().getResponse().getContentAsString();
+                ObjectMapper mapper = new ObjectMapper();
+                PublicUserRequestDto currentUser = mapper.readValue(returnedResponse, PublicUserRequestDto.class);
 
-//                 assertThat(currentUser.pseudo()).isEqualTo(this.userRef.getName());
-//                 assertThat(currentUser.username()).isEqualTo(this.userRef.getUsername());
-//         }
+                assertThat(currentUser.pseudo()).isEqualTo(this.userRef.getName());
+                assertThat(currentUser.username()).isEqualTo(this.userRef.getUsername());
+        }
 
-//         @Test
-//         @DisplayName("Attempt to get the current user when he is not connected")
-//         void IT_getCurrentUser_shouldReturnForbidden_whenBearerIsNotPresent() throws Exception {
-//                 /* Act & assert */
-//                 this.mockMvc.perform(
-//                                 MockMvcRequestBuilders.get(Endpoint.GET_CURRENT_USER)
-//                                                 .accept(MediaType.APPLICATION_JSON))
-//                                 .andExpect(MockMvcResultMatchers.status().isForbidden());
-//         }
+        @Test
+        @DisplayName("Attempt to get the current user when he is not connected")
+        void IT_getCurrentUser_shouldReturnForbidden_whenBearerIsNotPresent() throws Exception {
+                /* Act & assert */
+                this.mockMvc.perform(
+                                MockMvcRequestBuilders.get(Endpoint.GET_CURRENT_USER)
+                                                .accept(MediaType.APPLICATION_JSON))
+                                .andExpect(MockMvcResultMatchers.status().isForbidden());
+        }
 
-//         @Test
-//         @DisplayName("Attempt to get the current user when he is not connected")
-//         void IT_getCurrentUser_shouldReturnForbidden_whenBearerIsNotCorrect() throws Exception {
-//                 /* Act & assert */
-//                 this.mockMvc.perform(
-//                                 MockMvcRequestBuilders.get(Endpoint.GET_CURRENT_USER)
-//                                                 .header("authorization", "Bearer " + ConstantsForTests.FALSE_BEARER)
-//                                                 .accept(MediaType.APPLICATION_JSON))
-//                                 .andExpect(MockMvcResultMatchers.status().isForbidden());
-//         }
+        @Test
+        @DisplayName("Attempt to get the current user when he is not connected")
+        void IT_getCurrentUser_shouldReturnForbidden_whenBearerIsNotCorrect() throws Exception {
+                /* Act & assert */
+                this.mockMvc.perform(
+                                MockMvcRequestBuilders.get(Endpoint.GET_CURRENT_USER)
+                                                .header("authorization", "Bearer " + ConstantsForTests.FALSE_BEARER)
+                                                .accept(MediaType.APPLICATION_JSON))
+                                .andExpect(MockMvcResultMatchers.status().isForbidden());
+        }
 
-//        private SignInResponseDto connectAndReturnAllCredentials() throws JsonProcessingException, Exception {
-//                 /* Arrange */
-//                 final String[] messageContainingCode = new String[1];
-//                 this.mockMvc.perform(
-//                                 post(Endpoint.REGISTER)
-//                                                 .contentType(MediaType.APPLICATION_JSON_VALUE)
-//                                                 .content(this.objectMapper
-//                                                                 .writeValueAsString(this.registerRequestDto)));
-//                 await()
-//                                 .atMost(2, SECONDS)
-//                                 .untilAsserted(() -> {
-//                                         MimeMessage[] receivedMessages = greenMail.getReceivedMessages();
-//                                         assertThat(receivedMessages.length).isEqualTo(1);
+       private SignInResponseDto connectAndReturnAllCredentials() throws JsonProcessingException, Exception {
+                /* Arrange */
+                final String[] messageContainingCode = new String[1];
+                this.mockMvc.perform(
+                                post(Endpoint.REGISTER)
+                                                .contentType(MediaType.APPLICATION_JSON_VALUE)
+                                                .content(this.objectMapper
+                                                                .writeValueAsString(this.registerRequestDto)));
+                await()
+                                .atMost(2, SECONDS)
+                                .untilAsserted(() -> {
+                                        MimeMessage[] receivedMessages = greenMail.getReceivedMessages();
+                                        assertThat(receivedMessages.length).isEqualTo(1);
 
-//                                         MimeMessage receivedMessage = receivedMessages[0];
+                                        MimeMessage receivedMessage = receivedMessages[0];
 
-//                                         messageContainingCode[0] = GreenMailUtil.getBody(receivedMessage);
-//                                         assertThat(messageContainingCode[0]).contains(EMAIL_SUBJECT_ACTIVATION_CODE);
-//                                 });
+                                        messageContainingCode[0] = GreenMailUtil.getBody(receivedMessage);
+                                        assertThat(messageContainingCode[0]).contains(EMAIL_SUBJECT_ACTIVATION_CODE);
+                                });
 
-//                 final String reference = "activation code : ";
-//                 int startSubtring = messageContainingCode[0].indexOf(reference);
-//                 int startIndexOfCode = startSubtring + reference.length();
-//                 int endIndexOfCode = startIndexOfCode + 6;
-//                 String extractedCode = messageContainingCode[0].substring(startIndexOfCode, endIndexOfCode);
-//                 ActivationRequestDto activationDtoRequest = new ActivationRequestDto(extractedCode);
-//                 ResultActions response = this.mockMvc.perform(
-//                                 post(Endpoint.ACTIVATION)
-//                                                 .contentType(MediaType.APPLICATION_JSON_VALUE)
-//                                                 .content(this.objectMapper.writeValueAsString(activationDtoRequest)))
-//                                 .andExpect(MockMvcResultMatchers.status().isOk());
+                final String reference = "activation code : ";
+                int startSubtring = messageContainingCode[0].indexOf(reference);
+                int startIndexOfCode = startSubtring + reference.length();
+                int endIndexOfCode = startIndexOfCode + 6;
+                String extractedCode = messageContainingCode[0].substring(startIndexOfCode, endIndexOfCode);
+                ActivationRequestDto activationDtoRequest = new ActivationRequestDto(extractedCode);
+                ResultActions response = this.mockMvc.perform(
+                                post(Endpoint.ACTIVATION)
+                                                .contentType(MediaType.APPLICATION_JSON_VALUE)
+                                                .content(this.objectMapper.writeValueAsString(activationDtoRequest)))
+                                .andExpect(MockMvcResultMatchers.status().isOk());
 
-//                 String returnedResponse = response.andReturn().getResponse().getContentAsString();
+                String returnedResponse = response.andReturn().getResponse().getContentAsString();
 
-//                 assertThat(returnedResponse).isEqualTo(MessagesEn.ACTIVATION_OF_USER_OK);
+                assertThat(returnedResponse).isEqualTo(MessagesEn.ACTIVATION_OF_USER_OK);
 
-//                 SignInRequestDto authenticationDtoRequest = new SignInRequestDto(
-//                                 this.registerRequestDto.username(), this.registerRequestDto.password());
+                SignInRequestDto authenticationDtoRequest = new SignInRequestDto(
+                                this.registerRequestDto.username(), this.registerRequestDto.password());
 
-//                 response = this.mockMvc.perform(
-//                                 post(Endpoint.SIGN_IN)
-//                                                 .contentType(MediaType.APPLICATION_JSON_VALUE)
-//                                                 .content(this.objectMapper
-//                                                                 .writeValueAsString(authenticationDtoRequest)))
-//                                 .andExpect(MockMvcResultMatchers.status().isOk())
-//                                 .andExpect(content().contentType(MediaType.APPLICATION_JSON));
+                response = this.mockMvc.perform(
+                                post(Endpoint.SIGN_IN)
+                                                .contentType(MediaType.APPLICATION_JSON_VALUE)
+                                                .content(this.objectMapper
+                                                                .writeValueAsString(authenticationDtoRequest)))
+                                .andExpect(MockMvcResultMatchers.status().isOk())
+                                .andExpect(content().contentType(MediaType.APPLICATION_JSON));
 
-//                 returnedResponse = response.andReturn().getResponse().getContentAsString();
-//                 SignInResponseDto signInDtoresponse = this.objectMapper.readValue(returnedResponse,
-//                                 SignInResponseDto.class);
-//                 assertThat(signInDtoresponse.bearer().length()).isEqualTo(145);
-//                 assertThat(signInDtoresponse.refresh().length()).isEqualTo(UUID.randomUUID().toString().length());
-//                 return signInDtoresponse;
-//         }
+                returnedResponse = response.andReturn().getResponse().getContentAsString();
+                SignInResponseDto signInDtoresponse = this.objectMapper.readValue(returnedResponse,
+                                SignInResponseDto.class);
+                assertThat(signInDtoresponse.bearer().length()).isEqualTo(145);
+                assertThat(signInDtoresponse.refresh().length()).isEqualTo(UUID.randomUUID().toString().length());
+                return signInDtoresponse;
+        }
 }
