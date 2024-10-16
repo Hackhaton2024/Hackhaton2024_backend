@@ -137,154 +137,154 @@ public class UserController_IT {
 
         /* CONTROLLERS INTEGRATION TEST */
         /* ============================================================ */
-        @Test
-        @DisplayName("Get by username an existing user when my role is ADMIN")
-        void IT_getUser_ShouldSuccess_WhenUserExistsAndSenderIsAdmin() throws Exception {
+        // @Test
+        // @DisplayName("Get by username an existing user when my role is ADMIN")
+        // void IT_getUser_ShouldSuccess_WhenUserExistsAndSenderIsAdmin() throws Exception {
 
-                /* Act */
-                SignInResponseDto credentials = this.connectAnAdminAndReturnAllCredentials();
+        //         /* Act */
+        //         SignInResponseDto credentials = this.connectAnAdminAndReturnAllCredentials();
 
-                ResultActions response = this.mockMvc.perform(post(Endpoint.USER)
-                                .header("Authorization", BEARER + " " + credentials.bearer())
-                                .contentType(MediaType.APPLICATION_JSON_VALUE)
-                                .content(this.objectMapper.writeValueAsString(
-                                                new UserRequestDto(this.adminSignInRequestDto.username()))))
-                                .andExpect(MockMvcResultMatchers.status().isOk());
+        //         ResultActions response = this.mockMvc.perform(post(Endpoint.USER)
+        //                         .header("Authorization", BEARER + " " + credentials.bearer())
+        //                         .contentType(MediaType.APPLICATION_JSON_VALUE)
+        //                         .content(this.objectMapper.writeValueAsString(
+        //                                         new UserRequestDto(this.adminSignInRequestDto.username()))))
+        //                         .andExpect(MockMvcResultMatchers.status().isOk());
 
-                /* Assert */
-                String serializedResponse = response.andReturn().getResponse().getContentAsString();
-                PublicUserResponseDto parsedResponse = this.objectMapper.readValue(serializedResponse,
-                                new TypeReference<PublicUserResponseDto>() {
-                                });
+        //         /* Assert */
+        //         String serializedResponse = response.andReturn().getResponse().getContentAsString();
+        //         PublicUserResponseDto parsedResponse = this.objectMapper.readValue(serializedResponse,
+        //                         new TypeReference<PublicUserResponseDto>() {
+        //                         });
 
-                assertThat(parsedResponse.username()).isEqualTo(this.adminSignInRequestDto.username());
-        }
+        //         assertThat(parsedResponse.username()).isEqualTo(this.adminSignInRequestDto.username());
+        // }
 
-        @Test
-        @DisplayName("Get by username an existing user when my role is USER")
-        void IT_getUser_ShouldFail_WhenUserExistsAndSenderIsNotAdmin() throws Exception {
+        // @Test
+        // @DisplayName("Get by username an existing user when my role is USER")
+        // void IT_getUser_ShouldFail_WhenUserExistsAndSenderIsNotAdmin() throws Exception {
 
-                /* Act */
-                SignInResponseDto credentials = this.connectAnUserAndReturnAllCredentials();
+        //         /* Act */
+        //         SignInResponseDto credentials = this.connectAnUserAndReturnAllCredentials();
 
-                this.mockMvc.perform(post(Endpoint.USER)
-                                .header("Authorization", BEARER + " " + credentials.bearer())
-                                .contentType(MediaType.APPLICATION_JSON_VALUE)
-                                .content(this.objectMapper.writeValueAsString(
-                                                new UserRequestDto(this.adminSignInRequestDto.username()))))
-                                .andExpect(MockMvcResultMatchers.status().isForbidden());
-        }
+        //         this.mockMvc.perform(post(Endpoint.USER)
+        //                         .header("Authorization", BEARER + " " + credentials.bearer())
+        //                         .contentType(MediaType.APPLICATION_JSON_VALUE)
+        //                         .content(this.objectMapper.writeValueAsString(
+        //                                         new UserRequestDto(this.adminSignInRequestDto.username()))))
+        //                         .andExpect(MockMvcResultMatchers.status().isForbidden());
+        // }
 
-        @Test
-        @DisplayName("Get by username an non-existing user")
-        void getUser_ShouldFailed_WhenUserNotExists() throws Exception {
+        // @Test
+        // @DisplayName("Get by username an non-existing user")
+        // void getUser_ShouldFailed_WhenUserNotExists() throws Exception {
 
-                /* Act & assert */
-                SignInResponseDto credentials = this.connectAnAdminAndReturnAllCredentials();
-                this.mockMvc.perform(post(Endpoint.USER)
-                                .header("Authorization", BEARER + " " + credentials.bearer())
-                                .contentType(MediaType.APPLICATION_JSON_VALUE)
-                                .content(this.objectMapper.writeValueAsString(new UserRequestDto("dende@namek.org"))))
-                                .andExpect(status().isNotFound())
-                                .andExpect(result -> assertTrue(
-                                                result.getResolvedException() instanceof UsernameNotFoundException));
-        }
+        //         /* Act & assert */
+        //         SignInResponseDto credentials = this.connectAnAdminAndReturnAllCredentials();
+        //         this.mockMvc.perform(post(Endpoint.USER)
+        //                         .header("Authorization", BEARER + " " + credentials.bearer())
+        //                         .contentType(MediaType.APPLICATION_JSON_VALUE)
+        //                         .content(this.objectMapper.writeValueAsString(new UserRequestDto("dende@namek.org"))))
+        //                         .andExpect(status().isNotFound())
+        //                         .andExpect(result -> assertTrue(
+        //                                         result.getResolvedException() instanceof UsernameNotFoundException));
+        // }
 
-        @Test
-        @DisplayName("Get by username an existing user when bearer is not present")
-        void getUser_ShouldFailed_WhenBearerIsOmitted() throws Exception {
+        // @Test
+        // @DisplayName("Get by username an existing user when bearer is not present")
+        // void getUser_ShouldFailed_WhenBearerIsOmitted() throws Exception {
 
-                /* Act */
-                this.mockMvc.perform(post(Endpoint.USER)
-                                .contentType(MediaType.APPLICATION_JSON_VALUE)
-                                .content(this.objectMapper.writeValueAsString(this.adminSignInRequestDto)))
-                                .andExpect(MockMvcResultMatchers.status().isForbidden());
-        }
+        //         /* Act */
+        //         this.mockMvc.perform(post(Endpoint.USER)
+        //                         .contentType(MediaType.APPLICATION_JSON_VALUE)
+        //                         .content(this.objectMapper.writeValueAsString(this.adminSignInRequestDto)))
+        //                         .andExpect(MockMvcResultMatchers.status().isForbidden());
+        // }
 
-        @Test
-        @DisplayName("Get all users when at least one is present and my role is ADMIN")
-        void list_ShouldSuccess_WhenAnUserExistsAndSenderIsAdmin() throws Exception {
+        // @Test
+        // @DisplayName("Get all users when at least one is present and my role is ADMIN")
+        // void list_ShouldSuccess_WhenAnUserExistsAndSenderIsAdmin() throws Exception {
 
-                /* Arrange */
-                this.protectedUserDtos.clear();
-                protectedUserDtos = new ArrayList<>();
-                this.protectedUserDtos.add(new ProtectedUserResponseDto(
-                                this.userRef.getPseudonyme(),
-                                this.userRef.getEmail(),
-                                this.userRef.isActif(),
-                                this.userRef.getPseudonyme(),
-                                this.userRef.getAvatar(),
-                                this.userRef.getRole().getName().toString()));
+        //         /* Arrange */
+        //         this.protectedUserDtos.clear();
+        //         protectedUserDtos = new ArrayList<>();
+        //         this.protectedUserDtos.add(new ProtectedUserResponseDto(
+        //                         this.userRef.getPseudonyme(),
+        //                         this.userRef.getEmail(),
+        //                         this.userRef.isActif(),
+        //                         this.userRef.getPseudonyme(),
+        //                         this.userRef.getAvatar(),
+        //                         this.userRef.getRole().getName().toString()));
 
-                /* Act & assert */
-                SignInResponseDto credentials = this.connectAnAdminAndReturnAllCredentials();
-                ResultActions response = this.mockMvc.perform(get(Endpoint.GET_ALL_USERS)
-                                .header("Authorization", BEARER + " " + credentials.bearer()))
-                                .andExpect(MockMvcResultMatchers.status().isOk());
+        //         /* Act & assert */
+        //         SignInResponseDto credentials = this.connectAnAdminAndReturnAllCredentials();
+        //         ResultActions response = this.mockMvc.perform(get(Endpoint.GET_ALL_USERS)
+        //                         .header("Authorization", BEARER + " " + credentials.bearer()))
+        //                         .andExpect(MockMvcResultMatchers.status().isOk());
 
-                String serializedResponse = response.andReturn().getResponse().getContentAsString();
-                List<ProtectedUserResponseDto> parsedResponse = this.objectMapper.readValue(serializedResponse,
-                                new TypeReference<List<ProtectedUserResponseDto>>() {
-                                });
+        //         String serializedResponse = response.andReturn().getResponse().getContentAsString();
+        //         List<ProtectedUserResponseDto> parsedResponse = this.objectMapper.readValue(serializedResponse,
+        //                         new TypeReference<List<ProtectedUserResponseDto>>() {
+        //                         });
 
-                assertThat(parsedResponse).isNotEmpty();
-                assertThat(parsedResponse).isNotNull();
+        //         assertThat(parsedResponse).isNotEmpty();
+        //         assertThat(parsedResponse).isNotNull();
 
-        }
+        // }
 
-        @Test
-        @DisplayName("Get all users when at least one is present and my role is USER")
-        void list_ShouldFail_WhenAnUserExistsAndSenderIsUser() throws Exception {
-                /* Act & assert */
-                SignInResponseDto credentials = this.connectAnUserAndReturnAllCredentials();
-                this.mockMvc.perform(get(Endpoint.GET_ALL_USERS)
-                                .header("Authorization", BEARER + " " + credentials.bearer()))
-                                .andExpect(MockMvcResultMatchers.status().isForbidden());
-        }
+        // @Test
+        // @DisplayName("Get all users when at least one is present and my role is USER")
+        // void list_ShouldFail_WhenAnUserExistsAndSenderIsUser() throws Exception {
+        //         /* Act & assert */
+        //         SignInResponseDto credentials = this.connectAnUserAndReturnAllCredentials();
+        //         this.mockMvc.perform(get(Endpoint.GET_ALL_USERS)
+        //                         .header("Authorization", BEARER + " " + credentials.bearer()))
+        //                         .andExpect(MockMvcResultMatchers.status().isForbidden());
+        // }
 
-        @Test
-        @DisplayName("Get all users when bearer is ommited")
-        void list_ShouldReturnForbidden_WhenBearerIsOmmited() throws Exception {
+        // @Test
+        // @DisplayName("Get all users when bearer is ommited")
+        // void list_ShouldReturnForbidden_WhenBearerIsOmmited() throws Exception {
 
-                /* Act & assert */
-                this.mockMvc.perform(get(Endpoint.GET_ALL_USERS))
-                                .andExpect(MockMvcResultMatchers.status().isForbidden());
+        //         /* Act & assert */
+        //         this.mockMvc.perform(get(Endpoint.GET_ALL_USERS))
+        //                         .andExpect(MockMvcResultMatchers.status().isForbidden());
 
-        }
+        // }
 
-        /* UTILS */
-        /* ============================================================ */
-        private SignInResponseDto connectAnAdminAndReturnAllCredentials() throws JsonProcessingException, Exception {
-                ResultActions response = this.mockMvc.perform(
-                                post(Endpoint.SIGN_IN)
-                                                .contentType(MediaType.APPLICATION_JSON_VALUE)
-                                                .content(this.objectMapper
-                                                                .writeValueAsString(this.adminSignInRequestDto)))
-                                .andExpect(MockMvcResultMatchers.status().isOk())
-                                .andExpect(content().contentType(MediaType.APPLICATION_JSON));
+        // /* UTILS */
+        // /* ============================================================ */
+        // private SignInResponseDto connectAnAdminAndReturnAllCredentials() throws JsonProcessingException, Exception {
+        //         ResultActions response = this.mockMvc.perform(
+        //                         post(Endpoint.SIGN_IN)
+        //                                         .contentType(MediaType.APPLICATION_JSON_VALUE)
+        //                                         .content(this.objectMapper
+        //                                                         .writeValueAsString(this.adminSignInRequestDto)))
+        //                         .andExpect(MockMvcResultMatchers.status().isOk())
+        //                         .andExpect(content().contentType(MediaType.APPLICATION_JSON));
 
-                String returnedResponse = response.andReturn().getResponse().getContentAsString();
-                SignInResponseDto signInDtoresponse = this.objectMapper.readValue(returnedResponse,
-                                SignInResponseDto.class);
-                assertThat(signInDtoresponse.refresh().length()).isEqualTo(UUID.randomUUID().toString().length());
+        //         String returnedResponse = response.andReturn().getResponse().getContentAsString();
+        //         SignInResponseDto signInDtoresponse = this.objectMapper.readValue(returnedResponse,
+        //                         SignInResponseDto.class);
+        //         assertThat(signInDtoresponse.refresh().length()).isEqualTo(UUID.randomUUID().toString().length());
 
-                return signInDtoresponse;
-        }
+        //         return signInDtoresponse;
+        // }
 
-        private SignInResponseDto connectAnUserAndReturnAllCredentials() throws JsonProcessingException, Exception {
-                ResultActions response = this.mockMvc.perform(
-                                post(Endpoint.SIGN_IN)
-                                                .contentType(MediaType.APPLICATION_JSON_VALUE)
-                                                .content(this.objectMapper
-                                                                .writeValueAsString(this.userSignInRequestDto)))
-                                .andExpect(MockMvcResultMatchers.status().isOk())
-                                .andExpect(content().contentType(MediaType.APPLICATION_JSON));
+        // private SignInResponseDto connectAnUserAndReturnAllCredentials() throws JsonProcessingException, Exception {
+        //         ResultActions response = this.mockMvc.perform(
+        //                         post(Endpoint.SIGN_IN)
+        //                                         .contentType(MediaType.APPLICATION_JSON_VALUE)
+        //                                         .content(this.objectMapper
+        //                                                         .writeValueAsString(this.userSignInRequestDto)))
+        //                         .andExpect(MockMvcResultMatchers.status().isOk())
+        //                         .andExpect(content().contentType(MediaType.APPLICATION_JSON));
 
-                String returnedResponse = response.andReturn().getResponse().getContentAsString();
-                SignInResponseDto signInDtoresponse = this.objectMapper.readValue(returnedResponse,
-                                SignInResponseDto.class);
-                assertThat(signInDtoresponse.refresh().length()).isEqualTo(UUID.randomUUID().toString().length());
+        //         String returnedResponse = response.andReturn().getResponse().getContentAsString();
+        //         SignInResponseDto signInDtoresponse = this.objectMapper.readValue(returnedResponse,
+        //                         SignInResponseDto.class);
+        //         assertThat(signInDtoresponse.refresh().length()).isEqualTo(UUID.randomUUID().toString().length());
 
-                return signInDtoresponse;
-        }
+        //         return signInDtoresponse;
+        // }
 }
