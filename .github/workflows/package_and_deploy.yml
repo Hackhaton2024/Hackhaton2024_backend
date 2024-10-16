@@ -1,10 +1,9 @@
-# CI/CD pipeline for Inote API
-
+# CI/CD pipeline for Hackathon2024 REST API
 
 name: Inote Backend CI/CD workflow
-#Data securisation : Github secrets
-#atsuhikoMochizuki
-#28/04/2024
+# Data securisation : Github secrets
+# T.NGUYEN
+# 2024-10-17
 
 # Conditions for launching CI/CD process
 # =========================================
@@ -16,7 +15,7 @@ on:
 # =========================================
 jobs:
   
-  # => Jar folder creation on Inote server
+  # => Jar folder creation on server
   # ---------------------------------------
   create-folder:
     name: create the jar folder if not exists
@@ -80,30 +79,6 @@ jobs:
       run: mvn -B package --file pom.xml
       
     - name: Rename jar for deployement
-      run: mv target/*.jar target/Inote_API.jar
+      run: mv target/*.jar target/Hackathon2024_REST_API.jar
     
-    # Jar deployement on Inote server via ssh
-    # ----------------------------------------------------
-    - name: Deploy jar on server via ssh password
-      uses: appleboy/scp-action@v0.1.7
-      with: 
-        host: ${{ secrets.HOST }}
-        username: ${{ secrets.USERNAME }}
-        key: ${{ secrets.SSHKEY }}
-        port: ${{ secrets.PORT }}
-        source: "target/Inote_API.jar"
-        target: "./Inote_project/" 
-        strip_components: 1
-
-    # - name: stop process if running and restart jar
-    #   uses: appleboy/ssh-action@v1.0.3
-    #   with:
-    #     host: ${{ secrets.HOST }}
-    #     username: ${{ secrets.USERNAME }}
-    #     key: ${{ secrets.SSHKEY }}
-    #     port: ${{ secrets.PORT }}
-    #     script: |
-    #       pid=$(lsof -i :8080 -t)
-    #       kill -9 $pid
-    #       nohup java -jar ./Inote_project/Inote_API.jar &
-          
+   
