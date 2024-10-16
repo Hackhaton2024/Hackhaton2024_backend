@@ -18,9 +18,6 @@ import fr.lequipedechoc.hackathon_api.entity.User;
 import fr.lequipedechoc.hackathon_api.entity.Validation;
 import fr.lequipedechoc.hackathon_api.repository.ValidationRepository;
 import fr.lequipedechoc.hackathon_api.service.ValidationService;
-import fr.lequipedechoc.hackathon_api.service.impl.NotificationServiceImpl;
-import fr.lequipedechoc.hackathon_api.service.impl.ValidationServiceImpl;
-
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
 import java.util.Optional;

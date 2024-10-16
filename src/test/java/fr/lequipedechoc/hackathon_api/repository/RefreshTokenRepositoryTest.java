@@ -9,8 +9,6 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.test.context.ActiveProfiles;
 
 import fr.lequipedechoc.hackathon_api.cross_cutting.security.RefreshToken;
-import fr.lequipedechoc.hackathon_api.repository.RefreshTokenRepository;
-
 import org.springframework.boot.jdbc.EmbeddedDatabaseConnection;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 

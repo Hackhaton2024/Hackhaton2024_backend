@@ -13,8 +13,6 @@ import fr.lequipedechoc.hackathon_api.cross_cutting.exceptions.InoteUserExceptio
 import fr.lequipedechoc.hackathon_api.entity.Role;
 import fr.lequipedechoc.hackathon_api.repository.RoleRepository;
 import fr.lequipedechoc.hackathon_api.service.RoleService;
-import fr.lequipedechoc.hackathon_api.service.impl.RoleServiceImpl;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;

@@ -21,8 +21,6 @@ import fr.lequipedechoc.hackathon_api.entity.User;
 import fr.lequipedechoc.hackathon_api.repository.CommentRepository;
 import fr.lequipedechoc.hackathon_api.repository.UserRepository;
 import fr.lequipedechoc.hackathon_api.service.CommentService;
-import fr.lequipedechoc.hackathon_api.service.impl.CommentServiceImpl;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;

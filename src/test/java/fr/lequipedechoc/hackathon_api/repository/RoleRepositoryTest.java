@@ -16,7 +16,6 @@ import org.springframework.test.context.ActiveProfiles;
 
 import fr.lequipedechoc.hackathon_api.cross_cutting.enums.RoleEnum;
 import fr.lequipedechoc.hackathon_api.entity.Role;
-import fr.lequipedechoc.hackathon_api.repository.RoleRepository;
 
 /**
  * Unit tests of repository

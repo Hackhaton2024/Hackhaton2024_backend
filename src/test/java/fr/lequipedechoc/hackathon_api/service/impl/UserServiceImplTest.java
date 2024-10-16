@@ -37,7 +37,6 @@ import fr.lequipedechoc.hackathon_api.repository.UserRepository;
 import fr.lequipedechoc.hackathon_api.repository.ValidationRepository;
 import fr.lequipedechoc.hackathon_api.service.UserService;
 import fr.lequipedechoc.hackathon_api.service.ValidationService;
-import fr.lequipedechoc.hackathon_api.service.impl.UserServiceImpl;
 
 /**
  * Unit tests of service UserService

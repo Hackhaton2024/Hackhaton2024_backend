@@ -23,7 +23,6 @@ import fr.lequipedechoc.hackathon_api.cross_cutting.exceptions.InoteNotAuthentic
 import fr.lequipedechoc.hackathon_api.cross_cutting.exceptions.InoteUserException;
 import fr.lequipedechoc.hackathon_api.cross_cutting.security.Jwt;
 import fr.lequipedechoc.hackathon_api.cross_cutting.security.RefreshToken;
-import fr.lequipedechoc.hackathon_api.cross_cutting.security.impl.JwtServiceImpl;
 import fr.lequipedechoc.hackathon_api.entity.Role;
 import fr.lequipedechoc.hackathon_api.entity.User;
 import fr.lequipedechoc.hackathon_api.repository.JwtRepository;

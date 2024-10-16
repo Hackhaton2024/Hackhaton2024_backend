@@ -14,10 +14,6 @@ import fr.lequipedechoc.hackathon_api.cross_cutting.enums.RoleEnum;
 import fr.lequipedechoc.hackathon_api.entity.Role;
 import fr.lequipedechoc.hackathon_api.entity.User;
 import fr.lequipedechoc.hackathon_api.entity.Validation;
-import fr.lequipedechoc.hackathon_api.repository.RoleRepository;
-import fr.lequipedechoc.hackathon_api.repository.UserRepository;
-import fr.lequipedechoc.hackathon_api.repository.ValidationRepository;
-
 import org.springframework.boot.jdbc.EmbeddedDatabaseConnection;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 

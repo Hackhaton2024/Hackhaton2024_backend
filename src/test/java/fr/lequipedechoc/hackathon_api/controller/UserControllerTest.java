@@ -31,7 +31,6 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-import fr.lequipedechoc.hackathon_api.controller.UserController;
 import fr.lequipedechoc.hackathon_api.cross_cutting.constants.Endpoint;
 import fr.lequipedechoc.hackathon_api.cross_cutting.enums.RoleEnum;
 import fr.lequipedechoc.hackathon_api.cross_cutting.security.impl.JwtServiceImpl;

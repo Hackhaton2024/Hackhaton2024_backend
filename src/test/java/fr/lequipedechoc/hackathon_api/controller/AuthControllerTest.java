@@ -2,7 +2,6 @@ package fr.lequipedechoc.hackathon_api.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-import fr.lequipedechoc.hackathon_api.controller.AuthController;
 import fr.lequipedechoc.hackathon_api.cross_cutting.constants.Endpoint;
 import fr.lequipedechoc.hackathon_api.cross_cutting.constants.MessagesEn;
 import fr.lequipedechoc.hackathon_api.cross_cutting.enums.RoleEnum;

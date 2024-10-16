@@ -21,8 +21,6 @@ import fr.lequipedechoc.hackathon_api.cross_cutting.exceptions.InoteInvalidEmail
 import fr.lequipedechoc.hackathon_api.entity.User;
 import fr.lequipedechoc.hackathon_api.entity.Validation;
 import fr.lequipedechoc.hackathon_api.service.NotificationService;
-import fr.lequipedechoc.hackathon_api.service.impl.NotificationServiceImpl;
-
 import javax.mail.internet.MimeMessage;
 
 import org.junit.jupiter.api.BeforeEach;
