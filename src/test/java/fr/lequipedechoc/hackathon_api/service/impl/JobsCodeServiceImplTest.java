@@ -30,4 +30,5 @@ class JobsCodeServiceImplTest {
         assertThat(franceTravailAccessToken).contains("access_token");
         assertThat(franceTravailAccessToken).contains("scope");
     }
+
 }

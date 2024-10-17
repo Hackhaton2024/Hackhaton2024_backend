@@ -1,8 +1,5 @@
 package fr.lequipedechoc.hackathon_api.service.impl;
 
-
-import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.PropertySource;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -19,17 +16,15 @@ import fr.lequipedechoc.hackathon_api.cross_cutting.constants.FranceTravail;
 import fr.lequipedechoc.hackathon_api.cross_cutting.exceptions.FranceTravailAccessTokenGenerationException;
 
 @Service
-@Configuration
-@PropertySource("classpath:application.properties")
 public class JobsCodeServiceImpl{
+    
+    private RestTemplate restTemplate;
 
-    // @Value( "${spring.datasource.franceTravailIdClient}" )
-    // private String franceTravailIdClient;
-
-    // @Value("${spring.datasource.franceTravailIdClient}")
-    // private String franceTravailSecretKey = "5ff6ced7f38e38ad3601ecb747e7f32e66e4e623dc3dbc0ce9a4dc8040a58017";
-
-     /**
+    public JobsCodeServiceImpl(RestTemplate restTemplate){
+        this.restTemplate=restTemplate;
+    }
+    
+    /**
      * Generate a France Travail Access token
      *
      * @throws FranceTravailAccessTokenGenerationException
@@ -61,8 +56,11 @@ public class JobsCodeServiceImpl{
         // Creating query parameters
         MultiValueMap<String, String> params = new LinkedMultiValueMap<>();
         params.add(FranceTravail.ACCESSTOKEN_PARAM_KEY_GRANTTYPE, FranceTravail.ACCESSTOKEN_PARAM_VALUE_CLIENT_CREDENTIALS);
+        
+        // I can't get the values from application.properties file, must be fixed: this values must be in .env file.
         params.add(FranceTravail.ACCESSTOKEN_PARAM_KEY_CLIENT_ID, "PAR_hackathon_1d0a1fd538207c226f0fcf1e79ee5c3768f7df9947f195b8689116659a450e2e");
         params.add(FranceTravail.ACCESSTOKEN_PARAM_KEY_CLIENT_SECRET, "5ff6ced7f38e38ad3601ecb747e7f32e66e4e623dc3dbc0ce9a4dc8040a58017");
+        
         params.add(FranceTravail.ACCESSTOKEN_PARAM_KEY_SCOPE, FranceTravail.ACCESSTOKEN_PARAM_VALUE_OFFRESEMPLOIV2);
         
         // Add parameters on url
@@ -73,6 +71,52 @@ public class JobsCodeServiceImpl{
         // Add headers
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
+        HttpEntity<String> httpEntity = new HttpEntity<>(finalUrl, headers);
+        
+        // Request Launching
+        ResponseEntity<String> response=null;
+        try{
+            response = restTemplate.postForEntity(finalUrl, httpEntity, String.class);
+        }catch(RestClientException ex){
+            System.out.printf("%s:%s",
+                                ex.getMessage(),
+                                ex.getCause());
+            throw new FranceTravailAccessTokenGenerationException();
+        }
+
+        if(response.getStatusCode()!= HttpStatus.OK){
+            throw new FranceTravailAccessTokenGenerationException();
+        }
+
+        return response.getBody();
+    }
+
+    public String 
+    obtainClosestJobTitleFromFreeText(  String intitule,    // free text entered
+                                        String franceTravailBearerValue,
+                                        
+                                        ){
+        RestTemplate restTemplate = new RestTemplate();
+        
+        // Creating query parameters
+        MultiValueMap<String, String> params = new LinkedMultiValueMap<>();
+        params.add(FranceTravail.ACCESSTOKEN_PARAM_KEY_GRANTTYPE, FranceTravail.ACCESSTOKEN_PARAM_VALUE_CLIENT_CREDENTIALS);
+        
+        // I can't get the values from application.properties file, must be fixed: this values must be in .env file.
+        params.add(FranceTravail.ACCESSTOKEN_PARAM_KEY_CLIENT_ID, "PAR_hackathon_1d0a1fd538207c226f0fcf1e79ee5c3768f7df9947f195b8689116659a450e2e");
+        params.add(FranceTravail.ACCESSTOKEN_PARAM_KEY_CLIENT_SECRET, "5ff6ced7f38e38ad3601ecb747e7f32e66e4e623dc3dbc0ce9a4dc8040a58017");
+        
+        params.add(FranceTravail.ACCESSTOKEN_PARAM_KEY_SCOPE, FranceTravail.ACCESSTOKEN_PARAM_VALUE_OFFRESEMPLOIV2);
+        
+        // Add parameters on url
+        String finalUrl = UriComponentsBuilder
+                            .fromHttpUrl("https://api.francetravail.io/partenaire/romeo/v2/predictionMetiers")
+                            .queryParams(params)
+                            .toUriString();
+        // Add headers
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_JSON);
+        headers.setBearerAuth("Bearer "+bearerValue);
         HttpEntity<String> httpEntity = new HttpEntity<>(finalUrl, headers);
         
         // Request Launching
