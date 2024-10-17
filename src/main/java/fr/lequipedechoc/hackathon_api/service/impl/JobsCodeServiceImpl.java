@@ -1,8 +1,8 @@
 package fr.lequipedechoc.hackathon_api.service.impl;
 
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.PropertySource;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -15,36 +15,21 @@ import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
 
-import fr.lequipedechoc.hackathon_api.cross_cutting.constants.FranceTravailUrlAPI;
+import fr.lequipedechoc.hackathon_api.cross_cutting.constants.FranceTravail;
 import fr.lequipedechoc.hackathon_api.cross_cutting.exceptions.FranceTravailAccessTokenGenerationException;
-import fr.lequipedechoc.hackathon_api.service.JobsCodeService;
-import java.util.Map;
-import java.util.HashMap;
 
 @Service
-public class JobsCodeServiceImpl implements JobsCodeService {
+@Configuration
+@PropertySource("classpath:application.properties")
+public class JobsCodeServiceImpl{
 
-    @Autowired
-    private RestTemplate restTemplate;
-
-    public JobsCodeServiceImpl(RestTemplate restTemplate) {
-        this.restTemplate = restTemplate;
-    }
+    // @Value( "${spring.datasource.franceTravailIdClient}" )
+    // private String franceTravailIdClient;
 
     // @Value("${spring.datasource.franceTravailIdClient}")
-    private String franceTravailIdClient = "PAR_hackathon_1d0a1fd538207c226f0fcf1e79ee5c3768f7df9947f195b8689116659a450e2e";
+    // private String franceTravailSecretKey = "5ff6ced7f38e38ad3601ecb747e7f32e66e4e623dc3dbc0ce9a4dc8040a58017";
 
-    // @Value("${spring.datasource.franceTravailIdClient}")
-    private String franceTravailSecretKey = "5ff6ced7f38e38ad3601ecb747e7f32e66e4e623dc3dbc0ce9a4dc8040a58017";
-
-    @Override
-    public String getJobsCode(String stringlifiedSearch) {
-        ResponseEntity<String> response = restTemplate
-                .getForEntity(FranceTravailUrlAPI.GENERATE_FRANCE_TRAVAIL_ACCESS_TOKEN, String.class);
-        return response.getBody();
-    }
-
-    /**
+     /**
      * Generate a France Travail Access token
      *
      * @throws FranceTravailAccessTokenGenerationException
@@ -55,93 +40,56 @@ public class JobsCodeServiceImpl implements JobsCodeService {
      * @date 26-03-2024
      * 
      */
-    public ResponseEntity<String> generateFranceTravailAccessToken() throws FranceTravailAccessTokenGenerationException {
+    public String generateStringlifiedFranceTravailAccessToken() throws RestClientException, FranceTravailAccessTokenGenerationException {
+       /*
+        * RestTemplate est une classe du framework Spring pour Java qui permet de créer des requêtes HTTP pour interagir avec des services RESTful (Representational State of Resource). Elle fournit une interface simple et facile à utiliser pour envoyer des requêtes GET, POST, PUT, DELETE, etc. vers un service RESTful et gérer les réponses.
+        * Voici quelques-uns des avantages et des utilisations courantes du RestTemplate :
+        * -> Simplification de la création de requêtes HTTP
+        *    RestTemplate prend en charge les différents types de requêtes HTTP (GET, POST, PUT, DELETE, etc.) et les headers (Accept, Content-Type, Authorization, etc.) 
+        *    ce qui simplifie la création de requêtes complexes.
+        * -> Gestion des erreurs
+        *    RestTemplate gère les erreurs de manière transparente, vous permettant de récupérer les informations d’erreur 
+        *    et de les traiter de manière appropriée.
+        * -> Support des formats de données
+        *    RestTemplate prend en charge les formats de données couramment utilisés, tels que JSON, XML, et form-urlencoded.
+        * -> Interception des requêtes
+        *    Vous pouvez ajouter des intercepteurs pour modifier ou ajouter des en-têtes, des corps de requête ou des paramètres avant de envoyer la requête.
+        *    Gestion des sessions : RestTemplate prend en charge la gestion des sessions pour les requêtes qui nécessitent une authentification ou une autorisation.
+        */ 
         RestTemplate restTemplate = new RestTemplate();
-       
-
-        String urlTemplate = "https://entreprise.francetravail.fr/connexion/oauth2/access_token?realm=/partenaire";
-        MultiValueMap<String, String> params = new LinkedMultiValueMap<>();
-        params.add("grant_type", "client_credentials");
-        params.add("client_id", "PAR_hackathon_1d0a1fd538207c226f0fcf1e79ee5c3768f7df9947f195b8689116659a450e2e");
-        params.add("client_secret", "5ff6ced7f38e38ad3601ecb747e7f32e66e4e623dc3dbc0ce9a4dc8040a58017");
-        params.add("scope", "api_offresdemploiv2");
         
-
-        UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl(urlTemplate);
-        builder.queryParams(params);
-
-        String finalUrl = builder.toUriString();
-
+        // Creating query parameters
+        MultiValueMap<String, String> params = new LinkedMultiValueMap<>();
+        params.add(FranceTravail.ACCESSTOKEN_PARAM_KEY_GRANTTYPE, FranceTravail.ACCESSTOKEN_PARAM_VALUE_CLIENT_CREDENTIALS);
+        params.add(FranceTravail.ACCESSTOKEN_PARAM_KEY_CLIENT_ID, "PAR_hackathon_1d0a1fd538207c226f0fcf1e79ee5c3768f7df9947f195b8689116659a450e2e");
+        params.add(FranceTravail.ACCESSTOKEN_PARAM_KEY_CLIENT_SECRET, "5ff6ced7f38e38ad3601ecb747e7f32e66e4e623dc3dbc0ce9a4dc8040a58017");
+        params.add(FranceTravail.ACCESSTOKEN_PARAM_KEY_SCOPE, FranceTravail.ACCESSTOKEN_PARAM_VALUE_OFFRESEMPLOIV2);
+        
+        // Add parameters on url
+        String finalUrl = UriComponentsBuilder
+                            .fromHttpUrl(FranceTravail.ACCESSTOKEN_URL_GENERATION)
+                            .queryParams(params)
+                            .toUriString();
+        // Add headers
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
-        HttpEntity<String> entity = new HttpEntity<>(finalUrl, headers);
-        ResponseEntity<String> response = restTemplate.postForEntity(finalUrl, entity, String.class);
-        return response;
+        HttpEntity<String> httpEntity = new HttpEntity<>(finalUrl, headers);
+        
+        // Request Launching
+        ResponseEntity<String> response=null;
+        try{
+            response = restTemplate.postForEntity(finalUrl, httpEntity, String.class);
+        }catch(RestClientException ex){
+            System.out.printf("%s:%s",
+                                ex.getMessage(),
+                                ex.getCause());
+            throw new FranceTravailAccessTokenGenerationException();
+        }
 
-        // MultiValueMap<String, String> params = new LinkedMultiValueMap<>();
-        // params.add("grant_type", "client_credentials");
-        // params.add("client_id",
-        // "PAR_hackathon_1d0a1fd538207c226f0fcf1e79ee5c3768f7df9947f195b8689116659a450e2e");
-        // params.add("client_secret",
-        // "5ff6ced7f38e38ad3601ecb747e7f32e66e4e623dc3dbc0ce9a4dc8040a58017");
-        // params.add("scope", "api_offresdemploiv2 api_romeov2 o2dsoffre");
+        if(response.getStatusCode()!= HttpStatus.OK){
+            throw new FranceTravailAccessTokenGenerationException();
+        }
 
-        // HttpHeaders headers = new HttpHeaders();
-        // headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
-
-        // HttpEntity<MultiValueMap<String, String>> request = new HttpEntity<>(params,
-        // headers);
-        // ResponseEntity<String> response=null;
-        // RestTemplate restTemplate2 = new RestTemplate();
-        // try{
-        // response =
-        // restTemplate2.postForEntity("https://entreprise.francetravail.fr/connexion/oauth2/access_token?realm=%2Fpartenaire",
-        // request,
-        // String.class);
-
-        // }catch(RestClientException ex){
-        // System.out.println(ex.getMessage());
-        // }
-
-        // if(response.getStatusCode()!=HttpStatus.OK){
-        // throw new FranceTravailAccessTokenGenerationException();
-        // }
-
-        // return response.getBody();
-
+        return response.getBody();
     }
-
-    // return restTemplate.postForEntity(encodedParams,null,String.class);
-
-    // MultiValueMap<String, String> formData = new LinkedMultiValueMap<>();
-    // formData.add("grant_type", "client_credentials");
-    // formData.add("client_id",
-    // "PAR_hackathon_1d0a1fd538207c226f0fcf1e79ee5c3768f7df9947f195b8689116659a450e2e");
-    // formData.add("client_secret",
-    // "5ff6ced7f38e38ad3601ecb747e7f32e66e4e623dc3dbc0ce9a4dc8040a58017");
-    // formData.add("scope", "api_offresdemploiv2 api_romeov2 o2dsoffre");
-
-    // HttpHeaders headers = new HttpHeaders();
-    // headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
-
-    // HttpEntity<MultiValueMap<String, String>> request = new
-    // HttpEntity<>(formData, headers);
-
-    // ResponseEntity<String> response=null;
-    // RestTemplate restTemplate2 = new RestTemplate();
-    // try{
-    // response =
-    // restTemplate2.postForEntity("https://entreprise.francetravail.fr/connexion/oauth2/access_token?realm=%2Fpartenaire",
-    // request,
-    // String.class);
-
-    // }catch(RestClientException ex){
-    // System.out.println(ex.getMessage());
-    // }
-
-    // if(response.getStatusCode()!=HttpStatus.OK){
-    // throw new FranceTravailAccessTokenGenerationException();
-    // }
-
-    // return response.getBody();
 }
