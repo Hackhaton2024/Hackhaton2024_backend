@@ -1,6 +1,8 @@
 package fr.lequipedechoc.hackathon_api.entity;
 
 import java.util.Collection;
+import java.util.Set;
+
 import jakarta.persistence.*;
 import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
@@ -47,7 +49,10 @@ public class User implements UserDetails {
     /* ============================================================ */
     @ManyToOne
     private Role role;
-    
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.REMOVE, orphanRemoval = true)
+    private Set<SavedSearch> savedSearchList;
+
     /* UserDetails interface implementations */
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
