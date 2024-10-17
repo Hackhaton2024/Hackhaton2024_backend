@@ -50,5 +50,6 @@ public class MessagesEn {
         // MISCELLEANOUS
         public static final String UNSPECIFIED_ERROR_HAS_OCCURED = "An unspecified error has occurred";
         public static final String EXPIRED_TOKEN = "The JWT has expired";
-
+        public static final String ERROR_OCCURED_DURING_ACCESS_TOKEN_GENERATION = "An error has occured during FranceTravail AccessToken generation";
+        
 }
