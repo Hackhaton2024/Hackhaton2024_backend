@@ -1,5 +1,6 @@
 package fr.lequipedechoc.hackathon_api.service.impl;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -12,17 +13,16 @@ import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
 import fr.lequipedechoc.hackathon_api.cross_cutting.constants.FranceTravail;
 import fr.lequipedechoc.hackathon_api.cross_cutting.exceptions.FranceTravailAccessTokenGenerationException;
+import fr.lequipedechoc.hackathon_api.cross_cutting.exceptions.ObtainClosestJobTitleFromFreeTextException;
+import fr.lequipedechoc.hackathon_api.cross_cutting.notEntityClasses.JobsCodeRequestObject;
 
 @Service
 public class JobsCodeServiceImpl{
-    
-    private RestTemplate restTemplate;
-
-    public JobsCodeServiceImpl(RestTemplate restTemplate){
-        this.restTemplate=restTemplate;
-    }
     
     /**
      * Generate a France Travail Access token
@@ -91,47 +91,38 @@ public class JobsCodeServiceImpl{
         return response.getBody();
     }
 
+    /**
+     * Obtain Closest Job TitleFrom Free Text
+     *
+     * @throws ObtainClosestJobTitleFromFreeTextException
+     * 
+     * @return Stringlified response if status code is 200
+     * 
+     * @author T.NGUYEN
+     * @date 2024-10-17
+     * 
+     */
     public String 
-    obtainClosestJobTitleFromFreeText(  String intitule,    // free text entered
-                                        String franceTravailBearerValue,
-                                        
-                                        ){
-        RestTemplate restTemplate = new RestTemplate();
-        
-        // Creating query parameters
-        MultiValueMap<String, String> params = new LinkedMultiValueMap<>();
-        params.add(FranceTravail.ACCESSTOKEN_PARAM_KEY_GRANTTYPE, FranceTravail.ACCESSTOKEN_PARAM_VALUE_CLIENT_CREDENTIALS);
-        
-        // I can't get the values from application.properties file, must be fixed: this values must be in .env file.
-        params.add(FranceTravail.ACCESSTOKEN_PARAM_KEY_CLIENT_ID, "PAR_hackathon_1d0a1fd538207c226f0fcf1e79ee5c3768f7df9947f195b8689116659a450e2e");
-        params.add(FranceTravail.ACCESSTOKEN_PARAM_KEY_CLIENT_SECRET, "5ff6ced7f38e38ad3601ecb747e7f32e66e4e623dc3dbc0ce9a4dc8040a58017");
-        
-        params.add(FranceTravail.ACCESSTOKEN_PARAM_KEY_SCOPE, FranceTravail.ACCESSTOKEN_PARAM_VALUE_OFFRESEMPLOIV2);
-        
-        // Add parameters on url
-        String finalUrl = UriComponentsBuilder
-                            .fromHttpUrl("https://api.francetravail.io/partenaire/romeo/v2/predictionMetiers")
-                            .queryParams(params)
-                            .toUriString();
-        // Add headers
-        HttpHeaders headers = new HttpHeaders();
+    obtainClosestJobTitleFromFreeText(JobsCodeRequestObject jobsCodeRequestObject,
+             String franceTravailToken) throws JsonProcessingException, ObtainClosestJobTitleFromFreeTextException{
+       
+                ObjectMapper mapper = new ObjectMapper();
+        String stringlifiedBody = mapper.writeValueAsString(jobsCodeRequestObject);        HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
-        headers.setBearerAuth("Bearer "+bearerValue);
-        HttpEntity<String> httpEntity = new HttpEntity<>(finalUrl, headers);
+        headers.setBearerAuth(franceTravailToken);
+        HttpEntity<String> requestEntity = new HttpEntity<>(stringlifiedBody, headers);
         
-        // Request Launching
-        ResponseEntity<String> response=null;
+        RestTemplate restTemplate = new RestTemplate();
+        ResponseEntity<String> response;
         try{
-            response = restTemplate.postForEntity(finalUrl, httpEntity, String.class);
+          response= restTemplate.postForEntity(FranceTravail.ROME_URL_OBTAIN_PREDICTION, requestEntity, String.class);
         }catch(RestClientException ex){
-            System.out.printf("%s:%s",
-                                ex.getMessage(),
-                                ex.getCause());
-            throw new FranceTravailAccessTokenGenerationException();
+            System.out.println(ex.getMessage());
+            throw new ObtainClosestJobTitleFromFreeTextException();
         }
 
-        if(response.getStatusCode()!= HttpStatus.OK){
-            throw new FranceTravailAccessTokenGenerationException();
+        if(response.getStatusCode()!=HttpStatus.OK){
+            throw new ObtainClosestJobTitleFromFreeTextException();
         }
 
         return response.getBody();
