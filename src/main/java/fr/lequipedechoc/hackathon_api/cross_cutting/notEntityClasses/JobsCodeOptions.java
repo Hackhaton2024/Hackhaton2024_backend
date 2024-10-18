@@ -8,5 +8,5 @@ import lombok.Data;
 public class JobsCodeOptions {
     private String nomAppelant;
     private Integer nbResultats;
-    private float seuilScorePrediction;
+    private double seuilScorePrediction;
 }

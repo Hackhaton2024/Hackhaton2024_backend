@@ -1,6 +1,5 @@
 package fr.lequipedechoc.hackathon_api.cross_cutting.constants;
 
-import java.net.URI;
 
 public class FranceTravail {
     // ACCESS TOKEN
@@ -10,7 +9,7 @@ public class FranceTravail {
     public static final String ACCESSTOKEN_PARAM_KEY_CLIENT_SECRET = "client_secret";
     public static final String ACCESSTOKEN_PARAM_KEY_SCOPE = "scope";
     public static final String ACCESSTOKEN_PARAM_VALUE_CLIENT_CREDENTIALS = "client_credentials";
-    public static final String ACCESSTOKEN_PARAM_VALUE_OFFRESEMPLOIV2 = "api_offresdemploiv2";
+    public static final String ACCESSTOKEN_PARAM_VALUE_OFFRESEMPLOIV2 = "api_romeov2";
     
     public static final String URL_OBTAIN_THE_CLOSEST_ROME_JOB_TITLE_FROM_FREE_TEXT_ENTRY="https://api.francetravail.io/partenaire/romeo/v2/predictionMetiers";
     public static final String ROME_URL_OBTAIN_PREDICTION = "https://api.francetravail.io/partenaire/romeo/v2/predictionMetiers";

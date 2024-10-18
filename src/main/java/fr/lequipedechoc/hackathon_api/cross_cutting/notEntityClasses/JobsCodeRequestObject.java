@@ -12,6 +12,6 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class JobsCodeRequestObject {
-    private ArrayList<Appelation> appelations;
-    private JobsCodeOptions JobscodeOptions;
+    private ArrayList<Appelation> appellations;
+    private JobsCodeOptions options;
 }

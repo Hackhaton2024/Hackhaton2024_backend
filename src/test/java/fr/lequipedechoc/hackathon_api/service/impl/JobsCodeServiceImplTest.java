@@ -11,6 +11,7 @@ import org.springframework.test.context.ActiveProfiles;
 import org.springframework.web.client.RestClientException;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.JsonMappingException;
 
 import fr.lequipedechoc.hackathon_api.cross_cutting.constants.FranceTravail;
 import fr.lequipedechoc.hackathon_api.cross_cutting.exceptions.FranceTravailAccessTokenGenerationException;
@@ -34,18 +35,15 @@ class JobsCodeServiceImplTest {
     private JobsCodeServiceImpl jobsCodeService;
 
     @Test
-    void generateFranceTravailAccessToken_shouldReturnSuccess() throws FranceTravailAccessTokenGenerationException{
-        String franceTravailAccessToken = this.jobsCodeService.generateStringlifiedFranceTravailAccessToken();
-        assertThat(franceTravailAccessToken).contains("expires_in");
-        assertThat(franceTravailAccessToken).contains("token_type");
-        assertThat(franceTravailAccessToken).contains("access_token");
-        assertThat(franceTravailAccessToken).contains("scope");
+    void generateFranceTravailAccessToken_shouldReturnSuccess() throws FranceTravailAccessTokenGenerationException, JsonMappingException, RestClientException, JsonProcessingException{
+        String franceTravailAccessToken = this.jobsCodeService.generateFranceTravailAccessToken();
+        assertThat(franceTravailAccessToken).isNotNull();
     }
 
     @Test
     void obtainClosestJobTitleFromFreeText_shouldReturn200() throws JsonProcessingException, ObtainClosestJobTitleFromFreeTextException, RestClientException, FranceTravailAccessTokenGenerationException{
 
-        String token = this.jobsCodeService.generateStringlifiedFranceTravailAccessToken();
+        String token = this.jobsCodeService.generateFranceTravailAccessToken();
         
         Appelation appelation = Appelation.builder()
                             .intitule("Boucher")
@@ -59,13 +57,13 @@ class JobsCodeServiceImplTest {
         JobsCodeOptions options = JobsCodeOptions.builder()
         .nomAppelant("francetravail")
         .nbResultats(2)
-        .seuilScorePrediction(0)
+        .seuilScorePrediction(0.7)
         .build();
 
         JobsCodeRequestObject requestObject = 
             JobsCodeRequestObject.builder()
-            .appelations(appellations)
-            .JobscodeOptions(options)
+            .appellations(appellations)
+            .options(options)
             .build();
 
         String stringlifiedResponse = this.jobsCodeService.obtainClosestJobTitleFromFreeText(requestObject,token);

@@ -14,11 +14,14 @@ import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.JsonMappingException;
+import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import fr.lequipedechoc.hackathon_api.cross_cutting.constants.FranceTravail;
 import fr.lequipedechoc.hackathon_api.cross_cutting.exceptions.FranceTravailAccessTokenGenerationException;
 import fr.lequipedechoc.hackathon_api.cross_cutting.exceptions.ObtainClosestJobTitleFromFreeTextException;
+import fr.lequipedechoc.hackathon_api.cross_cutting.notEntityClasses.FranceTravailTokenAccess;
 import fr.lequipedechoc.hackathon_api.cross_cutting.notEntityClasses.JobsCodeRequestObject;
 
 @Service
@@ -32,10 +35,12 @@ public class JobsCodeServiceImpl{
      * @return Stringlified response if status code is 200
      * 
      * @author T.NGUYEN
+     * @throws JsonProcessingException 
+     * @throws JsonMappingException 
      * @date 26-03-2024
      * 
      */
-    public String generateStringlifiedFranceTravailAccessToken() throws RestClientException, FranceTravailAccessTokenGenerationException {
+    public String generateFranceTravailAccessToken() throws RestClientException, FranceTravailAccessTokenGenerationException, JsonMappingException, JsonProcessingException {
        /*
         * RestTemplate est une classe du framework Spring pour Java qui permet de créer des requêtes HTTP pour interagir avec des services RESTful (Representational State of Resource). Elle fournit une interface simple et facile à utiliser pour envoyer des requêtes GET, POST, PUT, DELETE, etc. vers un service RESTful et gérer les réponses.
         * Voici quelques-uns des avantages et des utilisations courantes du RestTemplate :
@@ -88,7 +93,13 @@ public class JobsCodeServiceImpl{
             throw new FranceTravailAccessTokenGenerationException();
         }
 
-        return response.getBody();
+        String stringlifiedCompleteBearer =  response.getBody();
+
+        ObjectMapper mapper = new ObjectMapper();
+        JsonNode jsonNode = mapper.readTree(stringlifiedCompleteBearer);
+        JsonNode desiredElement = jsonNode.get("access_token");
+        return desiredElement.asText();
+        
     }
 
     /**
@@ -108,8 +119,10 @@ public class JobsCodeServiceImpl{
        
                 ObjectMapper mapper = new ObjectMapper();
         String stringlifiedBody = mapper.writeValueAsString(jobsCodeRequestObject);        HttpHeaders headers = new HttpHeaders();
+        String bearer = String.format("Bearer %s",franceTravailToken);
+        headers.set("Accept", "application/json");
+        headers.set("Authorization", bearer);
         headers.setContentType(MediaType.APPLICATION_JSON);
-        headers.setBearerAuth(franceTravailToken);
         HttpEntity<String> requestEntity = new HttpEntity<>(stringlifiedBody, headers);
         
         RestTemplate restTemplate = new RestTemplate();
