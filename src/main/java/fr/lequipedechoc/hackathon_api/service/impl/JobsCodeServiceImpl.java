@@ -1,6 +1,5 @@
 package fr.lequipedechoc.hackathon_api.service.impl;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -21,9 +20,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import fr.lequipedechoc.hackathon_api.cross_cutting.constants.FranceTravail;
 import fr.lequipedechoc.hackathon_api.cross_cutting.exceptions.FranceTravailAccessTokenGenerationException;
 import fr.lequipedechoc.hackathon_api.cross_cutting.exceptions.ObtainClosestJobTitleFromFreeTextException;
-import fr.lequipedechoc.hackathon_api.cross_cutting.notEntityClasses.FranceTravailTokenAccess;
 import fr.lequipedechoc.hackathon_api.cross_cutting.notEntityClasses.JobsCodeRequestObject;
-
 @Service
 public class JobsCodeServiceImpl{
     

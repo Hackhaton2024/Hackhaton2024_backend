@@ -2,7 +2,6 @@ package fr.lequipedechoc.hackathon_api.service.impl;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import org.hibernate.mapping.Array;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;

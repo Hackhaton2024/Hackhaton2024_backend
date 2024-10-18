@@ -4,20 +4,14 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-import fr.lequipedechoc.hackathon_api.cross_cutting.constants.Endpoint;
 import fr.lequipedechoc.hackathon_api.cross_cutting.enums.RoleEnum;
 import fr.lequipedechoc.hackathon_api.cross_cutting.exceptions.*;
 import fr.lequipedechoc.hackathon_api.cross_cutting.security.impl.JwtServiceImpl;
-import fr.lequipedechoc.hackathon_api.dto.*;
-import fr.lequipedechoc.hackathon_api.entity.Comment;
 import fr.lequipedechoc.hackathon_api.entity.Role;
 import fr.lequipedechoc.hackathon_api.entity.User;
-import fr.lequipedechoc.hackathon_api.repository.CommentRepository;
-import fr.lequipedechoc.hackathon_api.service.impl.CommentServiceImpl;
 import fr.lequipedechoc.hackathon_api.service.impl.JobsCodeServiceImpl;
 import fr.lequipedechoc.hackathon_api.service.impl.UserServiceImpl;
 
-import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.junit.jupiter.MockitoExtension;
@@ -25,26 +19,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.http.MediaType;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.MvcResult;
-import org.springframework.test.web.servlet.ResultActions;
-import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 import org.springframework.web.client.RestClientException;
 
 import static fr.lequipedechoc.hackathon_api.ConstantsForTests.*;
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.*;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-
-import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
-
-import java.util.ArrayList;
-import java.util.List;
 
 @WebMvcTest(CommentController.class)
 /*
@@ -68,10 +49,12 @@ public class JobsCodeControllerTest {
          * isolation.
          * -> Need to be autowired to be autoconfigured
          */
+        @SuppressWarnings("unused")
         @Autowired
         private MockMvc mockMvc;
 
         /* ObjectMapper provide functionalities for read and write JSON data's */
+        @SuppressWarnings("unused")
         @Autowired
         private ObjectMapper objectMapper;
 

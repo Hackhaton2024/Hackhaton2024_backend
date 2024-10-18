@@ -16,74 +16,74 @@ public class WebConfig implements WebMvcConfigurer {
     @Override
     public void addCorsMappings(CorsRegistry registry) {
         registry.addMapping(Endpoint.REGISTER)
-                .allowedOrigins(FRONTEND_HOST)
-                .allowedMethods("POST")
+                .allowedOrigins("*")
+                .allowedMethods("*")
                 .allowedHeaders("Content-Type", "Authorization")
                 .exposedHeaders("Access-Control-Allow-Origin", "Access-Control-Allow-Credentials");
 
         registry.addMapping(Endpoint.ACTIVATION)
-                .allowedOrigins(FRONTEND_HOST)
-                .allowedMethods("POST")
+                .allowedOrigins("*")
+                .allowedMethods("*")
                 .allowedHeaders("Content-Type", "Authorization")
                 .exposedHeaders("Access-Control-Allow-Origin", "Access-Control-Allow-Credentials");
 
         registry.addMapping(Endpoint.SIGN_IN)
-                .allowedOrigins(FRONTEND_HOST)
-                .allowedMethods("POST")
+                .allowedOrigins("*")
+                .allowedMethods("*")
                 .allowedHeaders("Content-Type", "Authorization")
                 .exposedHeaders("Access-Control-Allow-Origin", "Access-Control-Allow-Credentials");
 
         registry.addMapping(Endpoint.GET_CURRENT_USER)
-                .allowedOrigins(FRONTEND_HOST)
-                .allowedMethods("GET")
+                .allowedOrigins("*")
+                .allowedMethods("*")
                 .allowedHeaders("Content-Type", "Authorization")
                 .exposedHeaders("Access-Control-Allow-Origin", "Access-Control-Allow-Credentials");
 
         registry.addMapping(Endpoint.SIGN_OUT)
-                .allowedOrigins(FRONTEND_HOST)
-                .allowedMethods("POST")
+                .allowedOrigins("*")
+                .allowedMethods("*")
                 .allowedHeaders("Content-Type", "Authorization")
                 .exposedHeaders("Access-Control-Allow-Origin", "Access-Control-Allow-Credentials",
                         "Access-Control-Request-Method", "Access-Control-Request-Headers");
 
         registry.addMapping(Endpoint.CHANGE_PASSWORD)
-                .allowedOrigins(FRONTEND_HOST)
-                .allowedMethods("POST")
+                .allowedOrigins("*")
+                .allowedMethods("*")
                 .allowedHeaders("Content-Type", "Authorization")
                 .exposedHeaders("Access-Control-Allow-Origin", "Access-Control-Request-Method",
                         "Access-Control-Request-Headers");
 
         registry.addMapping(Endpoint.NEW_PASSWORD)
-                .allowedOrigins(FRONTEND_HOST)
-                .allowedMethods("POST")
+                .allowedOrigins("*")
+                .allowedMethods("*")
                 .allowedHeaders("Content-Type", "Authorization")
                 .exposedHeaders("Access-Control-Allow-Origin", "Access-Control-Request-Method",
                         "Access-Control-Request-Headers");
 
         registry.addMapping(Endpoint.REFRESH_TOKEN)
-                .allowedOrigins(FRONTEND_HOST)
-                .allowedMethods("POST")
+                .allowedOrigins("*")
+                .allowedMethods("*")
                 .allowedHeaders("Content-Type", "Authorization")
                 .exposedHeaders("Access-Control-Allow-Origin", "Access-Control-Request-Method",
                         "Access-Control-Request-Headers");
 
         registry.addMapping(Endpoint.USER)
-                .allowedOrigins(FRONTEND_HOST)
-                .allowedMethods("POST")
+                .allowedOrigins("*")
+                .allowedMethods("*")
                 .allowedHeaders("Content-Type", "Authorization")
                 .exposedHeaders("Access-Control-Allow-Origin", "Access-Control-Allow-Credentials",
                         "Access-Control-Request-Method", "Access-Control-Request-Headers");
 
         registry.addMapping(Endpoint.SIGN_OUT)
-                .allowedOrigins(FRONTEND_HOST)
-                .allowedMethods("POST")
+                .allowedOrigins("*")
+                .allowedMethods("*")
                 .allowedHeaders("Content-Type", "Authorization")
                 .exposedHeaders("Access-Control-Allow-Origin", "Access-Control-Allow-Credentials",
                         "Access-Control-Request-Method", "Access-Control-Request-Headers");
 
         registry.addMapping(Endpoint.GET_ALL_USERS)
-                .allowedOrigins(FRONTEND_HOST)
-                .allowedMethods("GET")
+                .allowedOrigins("*")
+                .allowedMethods("*")
                 .allowedHeaders("Content-Type", "Authorization")
                 .exposedHeaders("Access-Control-Allow-Origin", "Access-Control-Request-Method",
                         "Access-Control-Request-Headers");
