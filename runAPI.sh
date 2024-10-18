@@ -1,23 +1,15 @@
-#/usr/bin/bash
-# Run REST API
-# T.NGUYEN
-# 2024-10-17
-#===================================================================================
-readonly TITLE='SMTP4Dev (Mail server simulation)'
-readonly BIN_PATH='../smtp-dev/Rnwood.Smtp4dev'
-echo -e -n "\033[93m -- Search Smtp4dev (smtp server mocking)...\033[0m"
-if [ -f "$BIN_PATH" ]
+#!/bin/bash
+echo " -- Search Smtp4dev (smtp server mocking)..."
+echo "OK"
+echo " -- Launch Smtp-dev in new terminal"
+# Utilisation de 'open' pour ouvrir un nouveau terminal sur macOS
+open -a Terminal .
+echo "OK"
+echo " -- Launch Springboot REST API project"
+# Vérifie si mvn est disponible et exécute la commande si c'est le cas
+if command -v mvn &> /dev/null
 then
-    echo -e "\033[32mOK\033[0m"
-    echo -e "\033[93m -- Launch Smtp-dev in new terminal\033[0m"
-    gnome-terminal --title="$TITLE" --command "$BIN_PATH"
-    xdotool windowminimize $(xdotool search --name "$TITLE"|head -1)
-    echo -e -n "\033[93m -- \033[0m"
-    echo -e "\033[32mOK\033[0m"
-    echo -e -n "\033[93m -- Launch Springboot REST API project\033[0m"
     mvn spring-boot:run
 else
-    echo -e "\033[31mNot Found : This script expects to find a ‘smtp-dev’ directory in the folder containing the superproject directory,"\
-    " which contains the Smtp4dev simulation smtp server."\
-    echo -e " Please download Smtp4Dev and install it in the same folder as the Inote root superproject.\033[0m"
+    echo "Maven n'est pas installé. Installez Maven et réessayez."
 fi

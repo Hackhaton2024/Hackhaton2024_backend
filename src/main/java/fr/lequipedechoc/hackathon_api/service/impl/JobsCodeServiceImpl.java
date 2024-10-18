@@ -19,7 +19,7 @@ import fr.lequipedechoc.hackathon_api.cross_cutting.constants.FranceTravail;
 import fr.lequipedechoc.hackathon_api.cross_cutting.exceptions.FranceTravailAccessTokenGenerationException;
 
 @Service
-@Configuration
+//@Configuration
 @PropertySource("classpath:application.properties")
 public class JobsCodeServiceImpl{
 
