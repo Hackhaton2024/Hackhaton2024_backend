@@ -64,15 +64,15 @@ public class JobsCodeController {
      }
 
 
-     @PostMapping(Endpoint.JOBCODE)
-        public ResponseEntity<String> getAIresponse(@RequestBody String freeInputText) throws JsonMappingException, RestClientException, JsonProcessingException, FranceTravailAccessTokenGenerationException, ObtainClosestJobTitleFromFreeTextException{
+    @PostMapping(Endpoint.JOBCODE)
+    public ResponseEntity<String> getAIresponse(@RequestBody String freeInputText) throws JsonMappingException, RestClientException, JsonProcessingException, FranceTravailAccessTokenGenerationException, ObtainClosestJobTitleFromFreeTextException{
         
         String token = this.jobsCodeService.generateFranceTravailAccessToken();
         
         Appelation appelation = Appelation.builder()
                             .intitule(freeInputText)
                             .identifiant(FranceTravail.ROMEO_FUNCTIONAL_ID)
-                            .contexte("Commerce de détail de viandes et de produits à base de viande en magasin spécialisé")
+                            .contexte("")
                             .build();
 
         ArrayList<Appelation> appellations = new ArrayList<>();

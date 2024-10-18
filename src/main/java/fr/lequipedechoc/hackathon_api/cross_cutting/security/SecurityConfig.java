@@ -143,7 +143,9 @@ public class SecurityConfig {
                                 .requestMatchers(POST, Endpoint.CHANGE_PASSWORD).permitAll()
                                 .requestMatchers(POST, Endpoint.NEW_PASSWORD).permitAll()
                                 .requestMatchers(POST, Endpoint.REFRESH_TOKEN).permitAll()
+                                .requestMatchers(POST, Endpoint.JOBCODE).permitAll()
                                 // -> Secured endpoints
+
                                 .requestMatchers(POST, Endpoint.GET_CURRENT_USER).authenticated()
                                 .requestMatchers(POST, Endpoint.SIGN_OUT).authenticated()
                                 .requestMatchers(POST, Endpoint.USER).hasAuthority("ROLE_ADMIN")

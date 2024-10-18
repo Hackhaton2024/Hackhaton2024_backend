@@ -13,7 +13,7 @@ public class Endpoint {
     public static final String GET_CURRENT_USER = "/api/auth/current-user";
     public static final String USER = "/api/users/get-user";
     public static final String GET_ALL_USERS = "/api/users/get-all-users";
-    public static final String JOBCODE = "jobscode";
+    public static final String JOBCODE = "/api/romeo";
     
     
     
