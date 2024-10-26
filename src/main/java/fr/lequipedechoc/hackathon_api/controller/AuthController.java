@@ -111,7 +111,7 @@ public class AuthController {
      * @since 19/05/2024
      */
 
-    @PostMapping(path = Endpoint.REGISTER)
+    @PostMapping(Endpoint.REGISTER)
     public ResponseEntity<String> register(@RequestBody RegisterRequestDto registerRequestDto)
             throws MailException, InoteExistingEmailException, InoteInvalidEmailException, InoteRoleNotFoundException,
             InoteInvalidPasswordFormatException, InoteMailException {
