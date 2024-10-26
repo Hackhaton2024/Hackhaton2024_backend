@@ -134,125 +134,18 @@ public class SecurityConfig {
      * @author T.NGUYEN
      * @date 28/03/2024
      */
-    // @Bean
-    // public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
-    //     httpSecurity
-    //     .cors(c -> c.configurationSource(corsConfigurationSource()))
-    //             /********* CRSF PROTECTION *********/
-    //             /*
-    //              * Deactivation of protection against the cross-site request forgery
-    //              * vulnerability, which consists in transmitting a falsified request to an
-    //              * unauthenticated user who will point to an internal site action so that he can
-    //              * execute it without being aware of it with his own rights.
-    //              */
-    //             .csrf(AbstractHttpConfigurer::disable)
-
-    //             /********* AUTHORIZATIONS *********/
-    //             /*
-    //              * By default, Spring Security requires that every request be authenticated.
-    //              * That said, any time you use an HttpSecurity instance, it’s necessary to
-    //              * declare your authorization rules.
-    //              * So whenever you have an HttpSecurity instance, you should at least do:
-    //              * http.authorizeHttpRequests((authorize) ->
-    //              * authorize.anyRequest().authenticated());)
-    //              */
-    //             .authorizeHttpRequests(
-    //                     /********* ROUTES MANAGEMENT *********/
-    //                     authorize -> authorize.permitAll())
-                                
-
-    //             /*
-    //              * Session Management
-    //              * session is a period of interaction between a user and application.
-    //              * Furthermore, the website maintains state information about the user’s actions
-    //              * and preferences during a session.
-    //              * The server can initiate a session for a user when they browse through a
-    //              * website.
-    //              * The session remains active until the user logs out.
-    //              * Session can help to improve the security by allowing the server to
-    //              * authenticate
-    //              * users and prevent unauthorized access to sensitive datas.
-    //              * Here, we ask to spring security don't create session, because our application
-    //              * is stateless (REST)
-    //              */
-    //             .sessionManagement(
-    //                     httpSecuritySessionManagementConfigurer -> httpSecuritySessionManagementConfigurer
-    //                             /*
-    //                              * disable the creation and use of HTTP sessions. When this policy is set,
-    //                              * Spring Security will not create a session and will not rely on the session to
-    //                              * store the SecurityContext.
-    //                              * This policy is useful for stateless applications
-    //                              * where every request needs to be authenticated separately, without relying on
-    //                              * a previous session. However, note that this policy only applies to the Spring
-    //                              * Security context, and your application might still create its own sessions.
-    //                              * Reminder -> Browsers can generally handle authentication in one of two ways:
-    //                              * - Token authentication (stateless): the token already has the information
-    //                              * needed to validate the user, so there's no need to save session information
-    //                              * on the server.
-    //                              *
-    //                              * - Session-based authentication (stateful) using cookies: identifiers are
-    //                              * saved on the server and in the browser for comparison.
-    //                              */
-    //                             .sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-
-    //             /********* CUSTOMS FILTERS *********/
-    //             /*
-    //              * Add a custom filter upstream of the security chain, inheriting from a filter
-    //              * class.
-    //              * The UsernamePasswordAuthenticationFilter is a Spring Security class that
-    //              * handles the authentication process for username and password credentials
-    //              */
-    //             .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class)
-    //             .build();
-    //      return httpSecurity;
-    // }
-
+    
     @Bean
-    // Création de la chaine des filtres de sécurité (Implémentation du Bean
-    // SecuriyFilterChain)
-    // Nota : l'annotation @Bean indique que la méthode produira un objet java, le
-    // bean, qui sera géré par le conteneur Spring
-    // Nota : L'objet HttpSecurity permet de configurer la sécurité basée sur le web
-    // pour des requêtes http spécifiques.
-    // Par défaut, la sécurité est appliquée à toutes les demandes, mais elle peut
-    // être restreinte à l'aide de requestMatcher(RequestMatcher) ou d'autres
-    // méthodes similaires.
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
-                // ===> Utilisation de la méthode cors() de Spring Security
-                .cors(c -> c.configurationSource(corsConfigurationSource()))
-
-                // Permet de configurer la gestion des exceptions. Ceci est automatiquement
-                // appliqué lors de l'utilisation de EnableWebSecurity.
-                .exceptionHandling(customizer -> customizer
+                 .cors(c -> c.configurationSource(corsConfigurationSource()))
+				.exceptionHandling(customizer -> customizer
                         .authenticationEntryPoint(new HttpStatusEntryPoint(HttpStatus.UNAUTHORIZED)))
-
-                // Désactivation de la sécurité crsf
-                // Nota: La sécurité CSRF (Cross-Site Request Forgery) est un type d’attaque qui
-                // vise à inciter un utilisateur authentifié à effectuer une action non
-                // souhaitée sur un site web. Cette attaque repose sur la confiance que
-                // l’utilisateur a dans l’authentification globale du site, ce qui permet à
-                // l’attaquant de faire exécuter des requêtes HTTP à l’insu de l’utilisateur.
-                .csrf(AbstractHttpConfigurer::disable)
-
-                // Configuration d'une application stateless
-                /*
-                 * Dans une configuration Spring Security, SessionCreationPolicy.STATELESS
-                 * indique qu'aucune session ne sera créée ou utilisée par Spring Security.
-                 * Cette politique est utile pour les applications sans état, où les décisions
-                 * d'authentification et d'autorisation sont prises sans s'appuyer sur des
-                 * sessions HTTP.
-                 * Caractéristiques principales :
-                 * - aucune session n'est créée ou stockée du côté du client (par exemple, des
-                 * cookies).
-                 * - Chaque demande nécessite une nouvelle authentification, car aucune
-                 * information de session n'est disponible.
-                 * - L'application ne s'appuie pas sur les sessions HTTP pour l'authentification
-                 * ou l'autorisation.
-                 */
+				.csrf(AbstractHttpConfigurer::disable)
                 .sessionManagement(customizer -> customizer.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests((requests) -> requests
-                        .anyRequest().permitAll());
+                        .anyRequest().permitAll())
+             .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);
         return http.build();
     }
 
